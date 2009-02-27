@@ -1,0 +1,11 @@
+##This wont work##
+The cat jumped.
+The black cat jumped.
+The old black cat jumped.
+The old hairless black cat jumped.
+#
+##This will##
+#The old hairless black cat jumped.
+#The old black cat jumped.
+#The black cat jumped.
+#The cat jumped.

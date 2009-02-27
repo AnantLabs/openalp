@@ -1,0 +1,15 @@
+The cat jumped.
+The black cat jumped.
+The old black cat jumped.
+The cat scratched the dog.
+The cat scratched the black dog.
+The cat scratched the old black dog.
+My cat scratched the dog.
+The cat scratched my dog.
+My cat scratched me.
+#I scratched my cat.
+Your cat scratched me.
+My cat scratched your cat.
+Your cat scratched your dog.
+His cat scratched me.
+My cat scratched his cat.
