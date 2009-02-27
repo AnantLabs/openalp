@@ -1,0 +1,5 @@
+#summary The goals of OpenALP. What It will do for you and what it wont.
+#labels Phase-Requirements
+
+= Introduction =
+OpenALP is a Natural Language Text Parser designed to take large volumes of text and analyze them, building a graph of the grammar and adding new words to the dictionary on the fly. 
