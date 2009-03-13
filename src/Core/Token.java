@@ -1,12 +1,14 @@
 package Core;
 
+import Graph.NodeFilter;
+
 /**
  * User: Adam Scarr
  * Date: 14/08/2008
  * Time: 12:05:32
  * Description: A token is a word with is associated data ie. the word type, its perspective(3rd person 1st person)
  */
-public class Token {
+public class Token implements NodeFilter<GrammarNode> {
 	private String value;
 	private String type;
     private boolean firstPerson, secondPerson, thirdPerson;
@@ -82,5 +84,9 @@ public class Token {
 
     public boolean isFutureTense() {
         return futureTense;
+    }
+
+    public boolean matches(GrammarNode target) {
+        return target.matches(this);
     }
 }

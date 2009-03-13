@@ -1,8 +1,7 @@
 package Graph;
 
-import Core.GrammarEdge;
-
-import java.util.LinkedList;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -64,7 +63,88 @@ public class Node<NodeType, EdgeType> {
 
 	public LinkedList<Edge<NodeType, EdgeType>> getEdges() {
 		return edges;
-	}
+	}    
+
+    // Returns a path through where every node matches the filter for that step.
+    // If we cannot find a complete path, the longest partial match will be used.
+    public LinkedList<Node<NodeType, EdgeType>> getMatchedPath(LinkedList<NodeFilter<Node<NodeType, EdgeType>>> filter) {
+        Queue<LinkedList<Node<NodeType, EdgeType>>> searchQueue = new ConcurrentLinkedQueue<LinkedList<Node<NodeType, EdgeType>>>();
+        LinkedList<Node<NodeType, EdgeType>> longestpath = new LinkedList<Node<NodeType, EdgeType>>();
+
+        LinkedList<Node<NodeType, EdgeType>> start = new LinkedList<Node<NodeType, EdgeType>>();
+        start.add(this);
+
+        searchQueue.add(start);
+
+        LinkedList<Node<NodeType, EdgeType>> path;
+        int i = 0;
+        while((path = searchQueue.poll()) != null) {
+            Node<NodeType, EdgeType> lastNode = path.getLast();
+
+            // We have consumed all our tokens, and they all match. Good Work!
+            // Give the user his path.
+            if(i >= filter.size()) {
+                return path;
+            }
+
+
+            for(Node<NodeType, EdgeType> linkedNode: lastNode.getConnectedNodes()) {
+                if(filter.get(i).matches(linkedNode)) {
+                    LinkedList<Node<NodeType, EdgeType>> newPath = new LinkedList<Node<NodeType, EdgeType>>(path);
+                    newPath.add(linkedNode);
+
+                    searchQueue.add(newPath);
+
+                    if(newPath.size() > longestpath.size()) {
+                        longestpath = newPath;
+                    }
+                }
+            }
+            i++;
+        }
+
+        return longestpath;
+
+    }
+
+    // Attempts to find a path between this node and the destination node.
+    // Makes use of a depth-first search so nearby entrys will be matched quickly.
+    // Loop safe.
+    // Returns null if no match is found.
+    public LinkedList<Node<NodeType, EdgeType>> getPath(Node<NodeType, EdgeType> destination) {
+        Queue<LinkedList<Node<NodeType, EdgeType>>> searchQueue = new ConcurrentLinkedQueue<LinkedList<Node<NodeType, EdgeType>>>();
+        LinkedList<Node<NodeType, EdgeType>> examined = new LinkedList<Node<NodeType, EdgeType>>();
+
+        LinkedList<Node<NodeType, EdgeType>> start = new LinkedList<Node<NodeType, EdgeType>>();
+        start.add(this);
+
+        searchQueue.add(start);
+
+        LinkedList<Node<NodeType, EdgeType>> path;
+
+        while((path = searchQueue.poll()) != null) {
+
+            Node<NodeType, EdgeType> lastNode = path.getLast();
+
+            examined.add(lastNode);
+
+            if (lastNode == destination) {
+                return path;
+            }
+
+            for(Node<NodeType, EdgeType> linkedNode: lastNode.getConnectedNodes()) {
+                if(!examined.contains(linkedNode)) {
+                    LinkedList<Node<NodeType, EdgeType>> newPath = new LinkedList<Node<NodeType, EdgeType>>(path);
+                    newPath.add(linkedNode);
+
+                    searchQueue.add(newPath);
+                }
+            }
+        }
+
+        return null;
+
+    }
 
 	//----------------------------------------
 	// Non mutating logic

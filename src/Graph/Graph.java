@@ -19,7 +19,6 @@ public class Graph<NodeType, EdgeType> {
 	private boolean nodesWriteLocked = false;
 	private int readLocks = 0;
 
-
 	//----------------------------------------
 	// Simple getters
 	//----------------------------------------
