@@ -1,3 +1,32 @@
+/**
+ *  This file is part of OpenALP.
+ *
+ *  OpenALP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  OpenALP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with OpenALP.  If not, see <a href='http://www.gnu.org/licenses/'>http://www.gnu.org/licenses/</a>.
+ *
+ *  A Lightweight swing component used for visualising a Graph.
+ *
+ *  Uses a real time force-based algorithm that looks quite nice. Nodes
+ *  can be locked (no longer move based on force) by clicking and dragging
+ *  them to wherever you want to place them, and unlocked by right clicking.
+ *
+ *  Currently has trouble with more complex graphs but we may be able to
+ *  get around this by adding some repulsive force to edges.
+ *
+ * @author      Adam Scarr
+ * @since       r1
+ **/
+
 package Graph;
 
 import javax.swing.*;
@@ -5,19 +34,11 @@ import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 
-/**
- * User: Adam Scarr
- * Date: 13/08/2008
- * Time: 23:03:28
- * description: Swing component used for displaying a Graph
- */
 public class GraphView extends JComponent implements Runnable, MouseMotionListener, MouseListener {
 	private Graph graph;
 	private Node dragNode = null;
-	private static final Color labelColor = new Color(225, 225, 225);
 	private static final int arrowWidth = 4;
 	private static final int arrowLength = 7;
 

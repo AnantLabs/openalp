@@ -1,14 +1,30 @@
-package Core;
+/**
+ *  This file is part of OpenALP.
+ *
+ *  OpenALP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  OpenALP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with OpenALP.  If not, see <a href='http://www.gnu.org/licenses/'>http://www.gnu.org/licenses/</a>.
+ *
+ * FileParser allows for text files to be parsed by Grammar.
+ *
+ * @author      Adam Scarr
+ * @author      Rowan Spence
+ * @since       r35
+ * @see         Grammar
+ **/
 
+package Core;
 import java.io.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: adam
- * Date: 15/03/2009
- * Time: 2:38:40 PM
- * Used to parse test files.
- */
 public class FileParser {
     Grammar grammar;
 
