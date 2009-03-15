@@ -16,6 +16,7 @@ public class GrammarEdge implements Colored, VariableStrength {
     private Grammar grammar;
 
     public GrammarEdge(Grammar grammar) {
+
         this.grammar = grammar;
     }
 
@@ -43,7 +44,6 @@ public class GrammarEdge implements Colored, VariableStrength {
 
     public Color getColor() {
         float weight = getWeight();
-        System.out.println(weight);
         return new Color(0.8f - weight * 0.6f, 0.2f + weight * 0.6f, 0.5f - Math.abs(weight - 0.5f));
     }
 }

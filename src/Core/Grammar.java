@@ -3,7 +3,6 @@ package Core;
 import Graph.*;
 
 import java.util.LinkedList;
-import java.io.*;
 
 /**
  * User: Adam Scarr
@@ -54,117 +53,46 @@ public class Grammar {
 	//----------------------------------------
 	// Checks if a given set of tokens is valid (there is a path from start to end.
 	public float validate(LinkedList<Token> input) {
-		return validateNode(start, input, 0);
+        // TODO: Ask Dimitry about this, dosent seem right to need to create a new list just so
+        //       Java knows that all elements implement a given interface.
+        LinkedList<NodeFilter<GrammarNode>> interfaceList = new LinkedList<NodeFilter<GrammarNode>>(input);
+        LinkedList<Node<GrammarNode, GrammarEdge>> path = start.getMatchedPath(interfaceList);
+
+        // First check the path actually made it to the end...
+        float validity = 1;
+        if(input.getLast().matches(path.getLast().getData())) {
+            // Walk the path and calculate the validity.
+            Node last = null;
+            for(Node<GrammarNode, GrammarEdge> node: path) {
+                Edge edge = node.getEdgeTo(last);
+
+                if(edge != null) {
+                    validity *= edge.getEdgeStrength();
+                }
+
+                last = node;
+            }
+
+        } else {
+            validity = 0;
+        }
+
+        return validity;
 	}
 
-	public float validate(String sentance) {
+	public float calculateSentanceValidity(String sentance) {
 		return validate(lexicon.tokenize(sentance.toLowerCase()));
-	}
-
-
-	// Returns true if there is a path from node to end.
-   	public float validateNode(Node<GrammarNode, GrammarEdge> parentNode, LinkedList<Token> input, int offset) {
-		for(Edge<GrammarNode, GrammarEdge> edge: parentNode.getOutgoingEdges()) {
-			Node<GrammarNode, GrammarEdge> node;
-			if(edge.getSrc().equals(parentNode)) {
-				node = edge.getDest();
-			} else {
-				node = edge.getSrc();
-			}
-
-			if(node.getData().isEnd() && offset == input.size()) {
-				System.out.println(edge.getData().getWeight() + " -> " + node.getData().getLabel());
-				return edge.getData().getWeight();
-			}
-
-			//DO NOT remove first part of this if statemnt!
-			if(input.size() > offset && node.getData().matches(input.get(offset))) {
-				System.out.print(edge.getData().getWeight() + " -> " + node.getData().getLabel() + " -> ");
-				float weight = validateNode(node, input, offset + 1);
-				if(weight > 0) {
-					return weight * (edge.getData().getWeight() + 0.5f);
-				}
-			}
-		}
-
-		return 0.0f;
 	}
 
 	//----------------------------------------
 	// Mutators
 	//----------------------------------------
 
-	// Reads a text file and passes each line into parse, building the grammar.
-	// Lines beginning with # are ignored.
-	public void parseFile(String filename) {
-		try {
-			BufferedReader trainingSet = new BufferedReader(new FileReader(new File(filename)));
-			String line;
-
-			while ((line = trainingSet.readLine()) != null) {
-				if(line.charAt(0) != '#') {
-					parse(line);
-				}
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("Cannot find training set '" + filename + "': " + e.getMessage());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Reads a 'test' file: a file that contains a number of lines each representing an action to manipulate the grammar.
-	// a: - adds a line
-	// v: - checks that a line validates correctly
-	// i: - checks that a line does not validate correctly.
-	public boolean testFile(String filename) {
-		boolean valid = true;
-		try {
-			BufferedReader trainingSet = new BufferedReader(new FileReader(new File(filename)));
-			String line;
-
-			while ((line = trainingSet.readLine()) != null) {
-				switch(line.charAt(0)) {
-					case 'a':
-						parse(line.substring(2));
-						break;
-
-					case 'v':
-						if(validate(line.substring(2)) == 0) {
-							System.out.println("Error validating: " + line.substring(2));
-							valid = false;
-						}
-						break;
-
-					case 'i':
-						if(validate(line.substring(2)) > 0) {
-							System.out.println("Error invalidating: " + line.substring(2));
-							valid = false;
-						}
-						break;
-
-				}
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("Cannot find test set '" + filename + "': " + e.getMessage());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return valid;
-	}
-
 	// Returns true if given sentance is valid.
 	// Returns false if its not, and adds it to the grammar.
 	public boolean parse(String sentance) {
 		graph.lockNodesRW();
 		LinkedList<Token> tokens = lexicon.tokenize(sentance.toLowerCase());
-
-//		if(validate(tokens)) {
-//			graph.unlockNodesRW();
-//			totalSentences++;
-//			return true;
-//		}
 
 		// Simple grammar add.
         boolean modified = addPath(tokens);
@@ -201,7 +129,7 @@ public class Grammar {
 		totalSentences = 0;
 	}
 
-	// for adding new paths to the graph when a giving sentence
+    // for adding new paths to the graph when a giving sentence
 	// does not fully parse with the existing graph
 	private class Chain {
 		Chain(Node<GrammarNode, GrammarEdge> src, Node<GrammarNode, GrammarEdge> dest, int links) {

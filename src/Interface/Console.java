@@ -3,6 +3,7 @@ package Interface;
 import Core.Grammar;
 import Core.Lexicon;
 import Core.Token;
+import Core.FileParser;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -140,8 +141,16 @@ public class Console extends JPanel implements ActionListener, KeyListener {
 				System.out.println(lex);
 			}
 		}
-		if(word[0].equalsIgnoreCase("train"))  { grammar.parseFile("data/" + word[1]); }
-		if(word[0].equalsIgnoreCase("test"))   { System.out.println(grammar.testFile("data/" + word[1])); }
+		if(word[0].equalsIgnoreCase("train"))  {
+            FileParser parser = new FileParser(grammar);
+            parser.parseFile("data/" + word[1]);
+        }
+
+		if(word[0].equalsIgnoreCase("test"))   {
+            FileParser parser = new FileParser(grammar);
+            System.out.println(parser.testFile("data/" + word[1]));
+        }
+
 		if(word[0].equalsIgnoreCase("clear"))  { grammar.clear(); }
 
 		if(word[0].equalsIgnoreCase("help") || word[0].equalsIgnoreCase("?")) {
@@ -168,7 +177,7 @@ public class Console extends JPanel implements ActionListener, KeyListener {
 			// Any text typed into the console directly will be checked against the grammar (not added)
 			System.out.print("Checking '" + command + "': ");
 
-			System.out.println(grammar.validate(command));
+			System.out.println(grammar.calculateSentanceValidity(command));
 		}
 
 		input.setText("");

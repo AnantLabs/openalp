@@ -6,7 +6,6 @@ import Graph.Drawable;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.font.LineMetrics;
 
 /**
  * User: Adam Scarr
@@ -14,7 +13,7 @@ import java.awt.font.LineMetrics;
  * Time: 14:48:45
  * Description: All the data associated with a particular node in the grammar graph.
  */
-public class GrammarNode implements Colored, Labeled, Drawable {
+public class GrammarNode implements Colored, Labeled, Drawable  {
 	private String type;
 	private boolean firstPerson, secondPerson, thirdPerson;
 	private boolean pastTense, presentTense, futureTense;

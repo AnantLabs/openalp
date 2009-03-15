@@ -63,11 +63,23 @@ public class Node<NodeType, EdgeType> {
 
 	public LinkedList<Edge<NodeType, EdgeType>> getEdges() {
 		return edges;
-	}    
+	}
+
+    // If the nodes are directly connected return the edge connecting them,
+    // Otherwise return null.
+    public Edge getEdgeTo(Node destination) {
+        for(Edge e: edges) {
+            if(e.getDest() == destination || e.getSrc() == destination) {
+                return e;
+            }
+        }
+
+        return null;
+    }
 
     // Returns a path through where every node matches the filter for that step.
     // If we cannot find a complete path, the longest partial match will be used.
-    public LinkedList<Node<NodeType, EdgeType>> getMatchedPath(LinkedList<NodeFilter<Node<NodeType, EdgeType>>> filter) {
+    public LinkedList<Node<NodeType, EdgeType>> getMatchedPath(LinkedList<NodeFilter<NodeType>> filter) {
         Queue<LinkedList<Node<NodeType, EdgeType>>> searchQueue = new ConcurrentLinkedQueue<LinkedList<Node<NodeType, EdgeType>>>();
         LinkedList<Node<NodeType, EdgeType>> longestpath = new LinkedList<Node<NodeType, EdgeType>>();
 
@@ -89,7 +101,7 @@ public class Node<NodeType, EdgeType> {
 
 
             for(Node<NodeType, EdgeType> linkedNode: lastNode.getConnectedNodes()) {
-                if(filter.get(i).matches(linkedNode)) {
+                if(filter.get(i).matches(linkedNode.getData())) {
                     LinkedList<Node<NodeType, EdgeType>> newPath = new LinkedList<Node<NodeType, EdgeType>>(path);
                     newPath.add(linkedNode);
 

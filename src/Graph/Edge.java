@@ -1,7 +1,5 @@
 package Graph;
 
-import Core.GrammarEdge;
-
 import java.awt.*;
 
 /**
@@ -75,7 +73,7 @@ public class Edge<NodeType, EdgeType> {
 	}
 
     public Color getColor() {
-        System.out.println(src.getLabel() + " -> " + dest.getLabel() + ": " + ((GrammarEdge)data).getUsageCount());
+        //System.out.println(src.getLabel() + " -> " + dest.getLabel() + ": " + ((GrammarEdge)data).getUsageCount());
         if(data == null) {
 			return Color.WHITE;
 		}
