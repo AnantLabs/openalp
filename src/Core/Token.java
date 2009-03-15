@@ -1,13 +1,38 @@
+/**
+ *  This file is part of OpenALP.
+ *
+ *  OpenALP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  OpenALP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with OpenALP.  If not, see <a href='http://www.gnu.org/licenses/'>http://www.gnu.org/licenses/</a>.
+ *
+ *  A token is the smallest possible part of a sentance that carrys grammatical meaning.
+ *  They carry the meaning of:
+ *  <ul>
+ *    <li>Part of Speed (nouns, verbs, adjectives, etc)</li>
+ *    <li>Presence (first person, 2nd person, 3rd person)</li>
+ *    <li>Tense (past, present, future)</li>
+ *  </ul>
+ *
+ *  TODO: We may need to add a few more parts of speed like finite verbs, or add a finite flag...
+ *
+ * @author      Adam Scarr
+ * @author      Rowan Spence
+ * @since       r1
+ **/
+
 package Core;
 
 import Graph.NodeFilter;
 
-/**
- * User: Adam Scarr
- * Date: 14/08/2008
- * Time: 12:05:32
- * Description: A token is a word with is associated data ie. the word type, its perspective(3rd person 1st person)
- */
 public class Token implements NodeFilter<GrammarNode> {
 	private String value;
 	private String type;

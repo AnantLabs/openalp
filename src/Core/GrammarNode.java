@@ -1,18 +1,35 @@
+/**
+ *  This file is part of OpenALP.
+ *
+ *  OpenALP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  OpenALP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with OpenALP.  If not, see <a href='http://www.gnu.org/licenses/'>http://www.gnu.org/licenses/</a>.
+ *
+ *  A GrammarNode represents an exact part of speech used in a particular context.
+ *  For example a 3rd person present tense noun that follows a pronoun.
+ *
+ * @author      Adam Scarr
+ * @author      Rowan Spence
+ * @since       r1
+ **/
+
 package Core;
 
 import Graph.Colored;
 import Graph.Labeled;
 import Graph.Drawable;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-/**
- * User: Adam Scarr
- * Date: 14/08/2008
- * Time: 14:48:45
- * Description: All the data associated with a particular node in the grammar graph.
- */
 public class GrammarNode implements Colored, Labeled, Drawable  {
 	private String type;
 	private boolean firstPerson, secondPerson, thirdPerson;

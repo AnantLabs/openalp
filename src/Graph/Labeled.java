@@ -1,11 +1,28 @@
+/**
+ *  This file is part of OpenALP.
+ *
+ *  OpenALP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  OpenALP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with OpenALP.  If not, see <a href='http://www.gnu.org/licenses/'>http://www.gnu.org/licenses/</a>.
+ *
+ *  This optional interface allows you to modify the label of a node.
+ *
+ * @author      Adam Scarr
+ * @see         Node
+ * @since       r1
+ **/
+
 package Graph;
 
-/**
- * User: Adam Scarr
- * Date: 15/08/2008
- * Time: 11:30:52
- * Description: A node with a label.
- */
 public interface Labeled {
 	public String getLabel();
 }

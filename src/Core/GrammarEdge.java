@@ -1,16 +1,40 @@
+/**
+ *  This file is part of OpenALP.
+ *
+ *  OpenALP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  OpenALP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with OpenALP.  If not, see <a href='http://www.gnu.org/licenses/'>http://www.gnu.org/licenses/</a>.
+ *
+ *  A representation of a connection between two Nodes in the Grammar Graph.
+ *  Used to collect statistics about the number of traversals.
+ *
+ *  The more times an edge is traversed the stronger it becomes, if a particular
+ *  sentance structure has been seen once in 10,000 sentances then it may not
+ *  even be valid. These statistics are very important for the 'fuzzy' logic
+ *  part of OpenALP.
+ *
+ *  @author      Adam Scarr
+ *  @author      Rowan Spence
+ *  @see         Grammar
+ *  @see         GrammarNode
+ *  @since       r1
+ **/
+
 package Core;
 
 import Graph.Colored;
 import Graph.VariableStrength;
-
 import java.awt.*;
 
-/**
- * User: Necromancy Black
- * Date: 8/09/2008
- * Time: 11:27:11
- * Desc: For keeping track of edge usage for wieghts
- */
 public class GrammarEdge implements Colored, VariableStrength {
 	private int usageCount = 1;
     private Grammar grammar;

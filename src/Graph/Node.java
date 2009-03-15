@@ -1,3 +1,31 @@
+/**
+ *  This file is part of OpenALP.
+ *
+ *  OpenALP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  OpenALP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with OpenALP.  If not, see <a href='http://www.gnu.org/licenses/'>http://www.gnu.org/licenses/</a>.
+ *
+ *  A Node in a Graph. Nodes can have many connections to other nodes (both directed and non-directed).
+ *  You can modify the visual aspect of the nodes by implementing the interfaces
+ *  in this package.
+ *
+ * @author      Adam Scarr
+ * @see         Colored
+ * @see         Drawable
+ * @see         Labeled
+ * @see         VariableStrength
+ * @since       r1
+ **/
+
 package Graph;
 
 import java.util.*;
@@ -5,12 +33,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-/**
- * User: Adam Scarr
- * Date: 13/08/2008
- * Time: 22:13:23
- * description: A graph node of Type.
- */
 public class Node<NodeType, EdgeType> {
 	private LinkedList<Edge<NodeType, EdgeType>> edges = new LinkedList<Edge<NodeType, EdgeType>>();
 	private static final float springeness = 1.05f;

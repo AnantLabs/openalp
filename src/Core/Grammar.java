@@ -1,15 +1,31 @@
+/**
+ *  This file is part of OpenALP.
+ *
+ *  OpenALP is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  OpenALP is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with OpenALP.  If not, see <a href='http://www.gnu.org/licenses/'>http://www.gnu.org/licenses/</a>.
+ *
+ *  Grammar allows the dynamic manipulation of the grammar, and includes the
+ *  methods required to test a sentance against the derived grammar.
+ *
+ *  @author      Adam Scarr
+ *  @author      Rowan Spence
+ *  @since       r1
+ **/
+
 package Core;
 
 import Graph.*;
-
 import java.util.LinkedList;
-
-/**
- * User: Adam Scarr
- * Date: 14/08/2008
- * Time: 14:43:37
- * Description: Creates and manages the grammar graph.
- */
 
 public class Grammar {
 	private Node<GrammarNode, GrammarEdge> start, end;
