@@ -193,8 +193,8 @@ public class Grammar {
 		return new Chain(src, dest, limit - offset);
 	}
 
-	// Creates a path from start to end that matches the given token array by creating only the nodes that are needed
-	// If a match exists it will not create any nodes.
+	// Creates a path from start to end that matches the given token array by creating only the nodes
+    // that are needed If a match exists it will not create any nodes.
 	// If no nodes (aside from start and finish) exist then it will create the whole chain.
 	// Otherwise it will just create the smallest possible chain over the unmatched area.
 	public boolean addPath(LinkedList<Token> tokens){
