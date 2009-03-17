@@ -17,18 +17,12 @@
  *  This lightweight swing component creates a text console with
  *  command history, and sends commands off to the appropriate classes.
  *
- *  TODO: Split the OpenALP logic out of here. Should be in a derived class somewhere. This should be generic.
- *
  * @author      Adam Scarr
  * @since       r1
  **/
 
-package Interface;
+package GenericComponents;
 
-import Core.Grammar;
-import Core.Lexicon;
-import Core.Token;
-import Core.FileParser;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.event.ActionListener;
@@ -37,33 +31,32 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.*;
 import java.io.*;
+import java.util.LinkedList;
 
 public class Console extends JPanel implements ActionListener, KeyListener {
-	private Grammar grammar;
-	private Lexicon lex;
 	private JTextField input = new JTextField();
 	private JTextArea log = new JTextArea();
-	PrintStream aPrintStream  = new PrintStream(new FilteredStream (new ByteArrayOutputStream()));
-	private int nextSlot = MAX_SLOTS - 1;
+    private int nextSlot = MAX_SLOTS - 1;
 	private int selectedSlot = 0;
 	private static final int MAX_SLOTS = 10;
 	private String[] command = new String[MAX_SLOTS];
 	private static final int KEY_UP = 38;
 	private static final int KEY_DOWN = 40;
+    private LinkedList<CommandListener> commandListeners = new LinkedList<CommandListener>();
+    private CommandListener defaultListener;
 
-	//----------------------------------------
+    //----------------------------------------
 	// Constructors
 	//----------------------------------------
 
-	Console(Grammar grammar, Lexicon lex) {
-		this.grammar = grammar;
-		this.lex = lex;
+	public Console() {
 		input.addActionListener(this);
 
 		log.setBackground(new Color(220, 220, 220));
 		log.setRows(10);
 
-		System.setOut(aPrintStream);
+        PrintStream aPrintStream = new PrintStream(new FilteredStream(new ByteArrayOutputStream()));
+        System.setOut(aPrintStream);
 //      System.setErr(aPrintStream);               // Comment out to hide debugging messages.
 
 		JScrollPane logScrollPane = new JScrollPane(log);
@@ -89,8 +82,11 @@ public class Console extends JPanel implements ActionListener, KeyListener {
 		selectedSlot = 0;
 	}
 
+    public void addCommandListener(CommandListener listener) {
+        commandListeners.add(listener);
+    }
+
 	private String getSelectedSlot() {
-		
 		return this.command[(nextSlot + selectedSlot) % MAX_SLOTS];
 	}
 
@@ -114,7 +110,11 @@ public class Console extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
-	//----------------------------------------
+    public void setDefaultListener(CommandListener defaultListener) {
+        this.defaultListener = defaultListener;
+    }
+
+    //----------------------------------------
 	// Private classes
 	//----------------------------------------
 
@@ -135,53 +135,12 @@ public class Console extends JPanel implements ActionListener, KeyListener {
 
 	public void runCommand(String command) {
 		String[] word = command.split(" ");
-		String params = null;
-		if(command.length() > word[0].length()) {
-			params = command.substring(word[0].length() + 1);
-		}
 
-		if(word[0].equalsIgnoreCase("echo"))   { System.out.println(params); }
-		if(word[0].equalsIgnoreCase("exit"))   { System.exit(0); }
-		if(word[0].equalsIgnoreCase("add"))    { grammar.parse(params);}
-		if(word[0].equalsIgnoreCase("define")) {
-			int perspectiveMask = Integer.parseInt(word[3]);
-			int tenseMask = Integer.parseInt(word[4]);
-			
-			lex.add(new Token(word[1], word[2], (perspectiveMask & 4) == 4, (perspectiveMask & 2) == 2,(perspectiveMask & 1) == 1,
-					                              (tenseMask & 4) == 4, (tenseMask & 2) == 2, (tenseMask & 1) == 1));
-		}
-		if(word[0].equalsIgnoreCase("remove")) { lex.remove(word[1]); }
-		if(word[0].equalsIgnoreCase("search")) {
-			if(word.length > 1) {
-				System.out.println(lex.get(word[1]));
-			} else {
-				System.out.println("Please give a word to search for from the lexicon:");
-				System.out.println(lex);
-			}
-		}
-		if(word[0].equalsIgnoreCase("train"))  {
-            FileParser parser = new FileParser(grammar);
-            parser.parseFile("data/" + word[1]);
+        for(CommandListener commandListener: commandListeners) {
+            if(word[0].equalsIgnoreCase(commandListener.getCommand())) {
+                commandListener.runCommand(this, word, word.length);
+            }
         }
-
-		if(word[0].equalsIgnoreCase("test"))   {
-            FileParser parser = new FileParser(grammar);
-            System.out.println(parser.testFile("data/" + word[1]));
-        }
-
-		if(word[0].equalsIgnoreCase("clear"))  { grammar.clear(); }
-
-		if(word[0].equalsIgnoreCase("help") || word[0].equalsIgnoreCase("?")) {
-			System.out.println("::help::");
-			System.out.println("  add (sentance) - Create a new path in the grammar");
-			System.out.println("  define (word) (type) - Create a word in the dictionary");
-			System.out.println("  remove (word) - Removes a word from the dictionary");
-			System.out.println("  search (word) - Finds a word in the dictionary");
-			System.out.println("  test (filename) - Runs the given test file through the grammar");
-			System.out.println("  train (filename) - Runs the given file into the parser building the grammar");
-			System.out.println("  help - Displays this message");
-			System.out.println("  exit - Leave this wonderfull program");
-		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -192,10 +151,9 @@ public class Console extends JPanel implements ActionListener, KeyListener {
 		if(command.charAt(0) == '\\' || command.charAt(0) == '/') {
 			runCommand(command.substring(1));
 		} else {
-			// Any text typed into the console directly will be checked against the grammar (not added)
-			System.out.print("Checking '" + command + "': ");
-
-			System.out.println(grammar.calculateSentanceValidity(command));
+            String[] word = command.split(" ");
+			defaultListener.runCommand(this, word, word.length);
+			
 		}
 
 		input.setText("");
