@@ -1,9 +1,3 @@
-package LanguageBuilder.commands;
-
-import GenericComponents.CommandListener;
-import GenericComponents.Console;
-import Core.Grammar;
-
 /**
  * This file is part of OpenALP.
  * <p/>
@@ -21,11 +15,18 @@ import Core.Grammar;
  * along with OpenALP.  If not, see <a href='http://www.gnu.org/licenses/'>http://www.gnu.org/licenses/</a>.
  * <p/>
  *
- * Creates new grammar based on the given sentance. 
+ * Creates new grammar based on the given sentance.
  *
  * @author Adam Scarr
  * @since r37
  */
+
+package LanguageBuilder.commands;
+
+import GenericComponents.CommandListener;
+import GenericComponents.Console;
+import Core.Grammar;
+
 public class Add implements CommandListener {
     private Grammar grammar;
 
