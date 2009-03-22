@@ -1,2 +1,2 @@
 mkdir classes
-javac -classpath lib/ -d classes src\StartVisualizer.java src\Core\*.java src\Graph\*.java src\Interface\*.java
+javac -classpath lib/ -d classes src\LanguageBuilder.StartVisualizer.java src\Core\*.java src\Graph\*.java src\GenericComponents\*.java

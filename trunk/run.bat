@@ -1,1 +1,1 @@
-java -classpath lib/sqlitejdbc-v053.jar;classes -Djava.library.path=lib/sqlitejdbc-v053.jar StartVisualizer
+java -classpath lib/sqlitejdbc-v053.jar;classes -Djava.library.path=lib/sqlitejdbc-v053.jar LanguageBuilder.StartVisualizer
