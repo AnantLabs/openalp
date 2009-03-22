@@ -89,8 +89,8 @@ public class Node<NodeType, EdgeType> {
 
     // If the nodes are directly connected return the edge connecting them,
     // Otherwise return null.
-    public Edge getEdgeTo(Node destination) {
-        for(Edge e: edges) {
+    public Edge<NodeType, EdgeType> getEdgeTo(Node destination) {
+        for(Edge<NodeType, EdgeType> e: edges) {
             if(e.getDest() == destination || e.getSrc() == destination) {
                 return e;
             }
@@ -99,8 +99,46 @@ public class Node<NodeType, EdgeType> {
         return null;
     }
 
+    // Searches from this node through the graph to find a node matching the filter.
+    // If none is found it returns null, otherwise it returns the path to that node.
+    public Node<NodeType, EdgeType> findMatchingNode(NodeFilter<NodeType> filter) {
+        Queue<LinkedList<Node<NodeType, EdgeType>>> searchQueue = new ConcurrentLinkedQueue<LinkedList<Node<NodeType, EdgeType>>>();
+        LinkedList<Node<NodeType, EdgeType>> examined = new LinkedList<Node<NodeType, EdgeType>>();
+
+        LinkedList<Node<NodeType, EdgeType>> start = new LinkedList<Node<NodeType, EdgeType>>();
+        start.add(this);
+
+        searchQueue.add(start);
+
+        LinkedList<Node<NodeType, EdgeType>> path;
+
+        while((path = searchQueue.poll()) != null) {
+
+            Node<NodeType, EdgeType> endNode = path.getLast();
+
+            examined.add(endNode);
+
+            //  If we have found a match return the path.
+            if (filter.matches(endNode.getData())) {
+                return endNode;
+            }
+
+            // otherwise add all the child nodes for examinations.
+            for(Node<NodeType, EdgeType> linkedNode: endNode.getConnectedNodes()) {
+                if(!examined.contains(linkedNode)) {
+                    LinkedList<Node<NodeType, EdgeType>> newPath = new LinkedList<Node<NodeType, EdgeType>>(path);
+                    newPath.add(linkedNode);
+
+                    searchQueue.add(newPath);
+                }
+            }
+        }
+
+        return null;
+    }
+
     // Returns a path through where every node matches the filter for that step.
-    // If we cannot find a complete path, the longest partial match will be used.
+    // If we cannot find a complete path, the longest partial match will be returned.
     public LinkedList<Node<NodeType, EdgeType>> getMatchedPath(LinkedList<NodeFilter<NodeType>> filter) {
         Queue<LinkedList<Node<NodeType, EdgeType>>> searchQueue = new ConcurrentLinkedQueue<LinkedList<Node<NodeType, EdgeType>>>();
         LinkedList<Node<NodeType, EdgeType>> longestpath = new LinkedList<Node<NodeType, EdgeType>>();
