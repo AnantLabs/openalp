@@ -72,12 +72,12 @@ public class Grammar {
         graph.lockNodesRO();
         // TODO: Ask Dimitry about this, dosent seem right to need to create a new list just so
         //       Java knows that all elements implement a given interface.
-        LinkedList<NodeFilter<GrammarNode>> interfaceList = new LinkedList<NodeFilter<GrammarNode>>(input);
-        LinkedList<Node<GrammarNode, GrammarEdge>> path = start.getMatchedPath(interfaceList);
+        LinkedList<NodeFilter<GrammarNode>> filterList = new LinkedList<NodeFilter<GrammarNode>>(input);
+        LinkedList<Node<GrammarNode, GrammarEdge>> path = start.getMatchedPath(filterList);
 
         // First check the path actually made it to the end...
         float validity = 1;
-        if(input.getLast().matches(path.getLast().getData())) {
+        if(path.size() > 0 && path.getLast().hasChild(end)) {
             // Walk the path and calculate the validity.
             Node last = null;
             for(Node<GrammarNode, GrammarEdge> node: path) {

@@ -113,7 +113,7 @@ public class Lexicon {
 			if(rs.next()) {
 				w = new Token(word, rs.getString("type"), rs.getBoolean("firstPerson"), rs.getBoolean("secondPerson"), rs.getBoolean("thirdPerson"),
 																		rs.getBoolean("pastTense"), rs.getBoolean("presentTense"), rs.getBoolean("futureTense"));
-				System.err.println("Lexicon loaded: " + w);
+				//System.err.println("Lexicon loaded: " + w);
 			}
 			rs.close();
 

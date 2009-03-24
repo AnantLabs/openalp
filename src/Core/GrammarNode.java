@@ -71,6 +71,10 @@ public class GrammarNode implements Colored, Labeled, Drawable  {
 		return type;
 	}
 
+    public String toString() {
+        return type;
+    }
+
 	//----------------------------------------
 	// Non mutating logic
 	//----------------------------------------

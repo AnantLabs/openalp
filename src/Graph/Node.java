@@ -28,6 +28,9 @@
 
 package Graph;
 
+import Core.GrammarNode;
+import Core.GrammarEdge;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.awt.*;
@@ -268,6 +271,10 @@ public class Node<NodeType, EdgeType> {
 		return Color.GREEN;
 	}
 
+    public String toString() {
+        return getLabel();
+    }
+
 	// If the data implements the Labeled interface then use it, otherwise returns and empty string.
 	public String getLabel() {
 		if(data == null) {
@@ -486,4 +493,13 @@ public class Node<NodeType, EdgeType> {
 		}
 	}
 
+    public boolean hasChild(Node<NodeType, EdgeType> child) {
+        for(Node<NodeType, EdgeType> node: getConnectedNodes()) {
+            if(node == child) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }
