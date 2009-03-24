@@ -40,9 +40,9 @@ public class Define implements CommandListener {
 
     public void runCommand(Console console, String[] argv, int argc) {
         int perspectiveMask = Integer.parseInt(argv[3]);
-			int tenseMask = Integer.parseInt(argv[4]);
+        int tenseMask = Integer.parseInt(argv[4]);
 
-			lexicon.add(new Token(argv[1], argv[2], (perspectiveMask & 4) == 4, (perspectiveMask & 2) == 2,(perspectiveMask & 1) == 1,
-					                                (tenseMask & 4)       == 4, (tenseMask & 2)       == 2, (tenseMask & 1)      == 1));
+        lexicon.add(new Token(argv[1], argv[2], (perspectiveMask & 4) == 4, (perspectiveMask & 2) == 2,(perspectiveMask & 1) == 1,
+                                                (tenseMask & 4)       == 4, (tenseMask & 2)       == 2, (tenseMask & 1)      == 1));
     }
 }
