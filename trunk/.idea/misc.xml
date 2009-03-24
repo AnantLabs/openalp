@@ -59,31 +59,6 @@
         <entry key="$PROJECT_DIR$">
           <value>
             <SvnBranchConfiguration>
-              <option name="branchMap">
-                <map>
-                  <entry key="https://openalp.googlecode.com/svn/branches">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                  <entry key="https://openalp.googlecode.com/svn/tags">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                  <entry key="https://openalp.googlecode.com/svn/wiki">
-                    <value>
-                      <list>
-                        <SvnBranchItem>
-                          <option name="creationDateMillis" value="1235693567010" />
-                          <option name="revision" value="2" />
-                          <option name="url" value="https://openalp.googlecode.com/svn/wiki/Goals.wiki" />
-                        </SvnBranchItem>
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
               <option name="branchUrls">
                 <list>
                   <option value="https://openalp.googlecode.com/svn/branches" />
