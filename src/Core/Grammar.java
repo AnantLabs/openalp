@@ -162,8 +162,24 @@ public class Grammar {
             lastNode = null;
             merge = null;
             Node<GrammarNode, GrammarEdge> node;
-            for(Token token: tokens) {
-                merge = fork.findMatchingNode(token);
+            boolean diverge = false;
+            for(Token token: tokens)
+            {
+                // If a conjunction appears in a chain then it can only rejoin the graph
+                // when a sentance terminator appears.
+                if(token.getType().equals("CONJ")) {
+                    diverge = true;
+                }
+                
+                if(diverge) {
+                    if(token.getType().equals("PERIOD")) {
+                        merge = fork.findMatchingNode(token);
+                    } else {
+                        merge = null;
+                    }
+                } else {
+                    merge = fork.findMatchingNode(token);
+                }
 
                 if(merge != null) {
                     break;
@@ -177,7 +193,9 @@ public class Grammar {
                 chain.add(node);
 
                 lastNode = node;
+
             }
+
 
             // Remove the used tokens.
             int i = 0;

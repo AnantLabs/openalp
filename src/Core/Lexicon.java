@@ -136,7 +136,13 @@ public class Lexicon {
 				// If we couldnt find the word perhaps it has a comma or period on the end?
 				// Search this word for periods or commas (usually at the end of a word not by themselves.
 				// todo: ownership on proper nouns ('s).
-				w = get(word.substring(0, word.length() - 1));
+                char last = word.charAt(word.length() - 1);
+                if(last == ',' || last == '.') {
+                    w = get(word.substring(0, word.length() - 1));
+                } else {
+                    w = get(word);
+                }
+
 				if(w.getType().equals("UNDEF")) {
 					 System.out.println("Could not find '" + w.getValue() + "' in lexicon.");
 				}

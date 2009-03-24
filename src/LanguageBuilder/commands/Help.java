@@ -33,7 +33,7 @@ public class Help implements CommandListener {
     public void runCommand(Console console, String[] argv, int argc) {
         System.out.println("::help::");
         System.out.println("  add (sentance) - Create a new path in the grammar");
-        System.out.println("  define (word) (type) - Create a word in the dictionary");
+        System.out.println("  define (word) (type) (perspectiveMask) (tenseMask) - Create a word in the dictionary");
         System.out.println("  remove (word) - Removes a word from the dictionary");
         System.out.println("  search (word) - Finds a word in the dictionary");
         System.out.println("  test (filename) - Runs the given test file through the grammar");
