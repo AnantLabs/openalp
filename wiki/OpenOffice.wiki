@@ -1,0 +1,4 @@
+#summary Open Office Overview
+
+= Introduction =
+OpenOffice is an open source word processor (and much more).
