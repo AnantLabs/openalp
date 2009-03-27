@@ -30,18 +30,18 @@ import java.util.LinkedList;
 public class Grammar {
 	private Node<GrammarNode, GrammarEdge> start, end;
 	private Graph<GrammarNode, GrammarEdge> graph;
-	private Lexicon lexicon;
+    private Tokenizer tokenizer;
 	private int totalSentences;
 
 	//----------------------------------------
 	// Constructors
 	//----------------------------------------
-	public Grammar(Lexicon lexicon) {
+	public Grammar(LexiconDAO lexicon) {
 		graph = new Graph<GrammarNode, GrammarEdge>();
 		start = graph.createNode(new GrammarNode(new Token("START", "START", false, false, false, false, false, false)));
 		start.lock();
 		end = graph.createNode(new GrammarNode(new Token("END", "END", false, false, false, false, false, false)));
-		this.lexicon = lexicon;
+        tokenizer = new Tokenizer(lexicon);
 		totalSentences = 0;
 	}
 
@@ -68,7 +68,7 @@ public class Grammar {
 	// Non mutating logic
 	//----------------------------------------
 	// Checks if a given set of tokens is valid (there is a path from start to end.
-	public float validate(LinkedList<Token> input) {
+	public float validateSentance(Sentance input) {
         graph.lockNodesRO();
         // TODO: Ask Dimitry about this, dosent seem right to need to create a new list just so
         //       Java knows that all elements implement a given interface.
@@ -98,8 +98,27 @@ public class Grammar {
         return validity;
 	}
 
+    /**
+     * Calculates the validity of each tokenized sentance in the set
+     * and returns the validity of the best.
+     * @param sentances The tokenized sentances.
+     * @return  The validity of the most-valid sentance.
+     */
+    public float validateSentances(LinkedList<Sentance> sentances) {
+        float best = Float.NEGATIVE_INFINITY;
+
+        for(Sentance sentance: sentances) {
+            float validity = validateSentance(sentance);
+            if(validity > best) {
+                best = validity;
+            }
+        }
+
+        return best;
+    }
+
 	public float calculateSentanceValidity(String sentance) {
-		return validate(lexicon.tokenize(sentance.toLowerCase()));
+		return validateSentances(tokenizer.tokenize(sentance.toLowerCase()));
 	}
 
 	//----------------------------------------
@@ -108,22 +127,42 @@ public class Grammar {
 
 	// Returns true if given sentance is valid.
 	// Returns false if its not, and adds it to the grammar.
-	public boolean parse(String sentance) {
-		graph.lockNodesRW();
-		LinkedList<Token> tokens = lexicon.tokenize(sentance.toLowerCase());
+	public boolean parse(String s) {
+
+		LinkedList<Sentance> sentances = tokenizer.tokenize(s.toLowerCase());
+
+        // Check if there are any valid sentances that match this structure.
+        boolean exists = false;
+        Sentance bestSentance = null;
+        float bestValidity = Float.NEGATIVE_INFINITY;
+        for(Sentance sentance: sentances) {
+            float validity = validateSentance(sentance);
+            if(validity > bestValidity) {
+                bestValidity = validity;
+                bestSentance = sentance;
+            }
+
+            if(validity > 0.0) {
+                exists = true;
+                addPath(sentance);
+            }
+        }
+
+        if(!exists) {
+            addPath(bestSentance);
+        }
 
 		// Simple grammar add.
-        boolean modified = addPath(tokens);
-		graph.unlockNodesRW();
-		totalSentences++;
 
-        return modified;
+        return exists;
     }
 
     // Creates add the given tokens to the grammar, creating a few nodes as possible.
     // It works by matching as many tokens as possible then when it finds a non-matching
     // token it creates the shortest chain possible to re-attach to the graph.
-    public boolean addPath(LinkedList<Token> tokens) {
+    public boolean addPath(Sentance tokens) {
+        graph.lockNodesRW();
+        totalSentences++;
         Node<GrammarNode, GrammarEdge> pathStart = start;
         Node<GrammarNode, GrammarEdge> fork;
         Node<GrammarNode, GrammarEdge> merge;
@@ -217,6 +256,7 @@ public class Grammar {
 
         } while(tokens.size() > 0);
 
+        graph.unlockNodesRW();
         return true;
     }
 

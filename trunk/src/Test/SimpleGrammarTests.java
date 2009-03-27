@@ -1,6 +1,6 @@
 package Test;
 
-import Core.Lexicon;
+import Core.LexiconDAO;
 import Core.Grammar;
 import Core.FileParser;
 
@@ -28,7 +28,7 @@ import Core.FileParser;
  */
 public class SimpleGrammarTests {
     public static void main(String[] args) {
-        Lexicon lexicon = new Lexicon();
+        LexiconDAO lexicon = new LexiconDAO();
         Grammar grammar = new Grammar(lexicon);
         FileParser fp = new FileParser(grammar);
 
