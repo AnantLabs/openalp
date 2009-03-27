@@ -6,4 +6,4 @@ The language Builder is a backend interface for building the grammar graphs.
 Currently its a bit clunkly, only taking commands over via a console. But as time allows it will be polished. We promise.
 
 = Screenshot =
-http://code.google.com/images/code_sm.png
+http://openalp.googlecode.com/files/Screenshot.png
