@@ -2,3 +2,5 @@
 
 = Introduction =
 OpenOffice is an open source word processor (and much more).
+
+You can get more information over at their [http://www.openoffice.org/ home page].
