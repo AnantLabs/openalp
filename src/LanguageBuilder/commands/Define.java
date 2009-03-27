@@ -3,7 +3,7 @@ package LanguageBuilder.commands;
 import GenericComponents.CommandListener;
 import GenericComponents.Console;
 import Core.Token;
-import Core.Lexicon;
+import Core.LexiconDAO;
 
 /**
  * This file is part of OpenALP.
@@ -28,9 +28,9 @@ import Core.Lexicon;
  * @since r37
  */
 public class Define implements CommandListener {
-    Lexicon lexicon;
+    LexiconDAO lexicon;
 
-    public Define(Lexicon lexicon) {
+    public Define(LexiconDAO lexicon) {
         this.lexicon = lexicon;
     }
 

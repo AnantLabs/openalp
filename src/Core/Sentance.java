@@ -1,8 +1,6 @@
-package LanguageBuilder.commands;
+package Core;
 
-import GenericComponents.CommandListener;
-import GenericComponents.Console;
-import Core.LexiconDAO;
+import java.util.LinkedList;
 
 /**
  * This file is part of OpenALP.
@@ -21,23 +19,11 @@ import Core.LexiconDAO;
  * along with OpenALP.  If not, see <a href='http://www.gnu.org/licenses/'>http://www.gnu.org/licenses/</a>.
  * <p/>
  *
- * Removes a token from the dictionary.
+ * A list of tokens that form a complete sentance.
  *
  * @author Adam Scarr
- * @since r37
+ * @since r42
  */
-public class Remove implements CommandListener {
-    LexiconDAO lexicon;
+public class Sentance extends LinkedList<Token> {
 
-    public Remove(LexiconDAO lexicon) {
-        this.lexicon = lexicon;
-    }
-
-    public String getCommand() {
-        return "remove";
-    }
-
-    public void runCommand(Console console, String[] argv, int argc) {
-        lexicon.remove(argv[1]);
-    }
 }

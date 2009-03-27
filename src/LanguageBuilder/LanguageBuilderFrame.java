@@ -24,7 +24,7 @@
 
 package LanguageBuilder;
 
-import Core.Lexicon;
+import Core.LexiconDAO;
 import Core.Grammar;
 import javax.swing.*;
 import Graph.GraphView;
@@ -33,7 +33,7 @@ import java.awt.*;
 import LanguageBuilder.commands.*;
 
 public class LanguageBuilderFrame extends JFrame {
-    Lexicon lexicon = new Lexicon();
+    LexiconDAO lexicon = new LexiconDAO();
     Grammar grammar = new Grammar(lexicon);
     GraphView graphView = new GraphView(grammar.getGraph());
     Console console = new Console();

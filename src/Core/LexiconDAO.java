@@ -16,8 +16,6 @@
  *
  *  The Lexicon forms the base of all known words. Currently stored in an SQLite database.
  * 
- *  TODO: Work needs to be done here to support returning multiple tokens for a given word, and the
- *  algorithms in grammar need to be updated to support it.
  *
  * @author      Adam Scarr
  * @author      Rowan Spence
@@ -27,16 +25,18 @@
 package Core;
 
 import java.sql.*;
-import java.util.LinkedList;
 
-public class Lexicon {
+public class LexiconDAO {
 	private static final String databaseURL = "jdbc:sqlite:data/lexicon.db";
 	private Connection db;
 	private PreparedStatement insert;
 	private PreparedStatement delete;
 
-	// Connects to the databaseURL
-	public Lexicon() {
+    /**
+     * Class constructor. Creates the database connection. If the database connection
+     * fails it will exit the program.
+     */
+	public LexiconDAO() {
 		try {
 			Class.forName("org.sqlite.JDBC");
 
@@ -56,7 +56,11 @@ public class Lexicon {
 		}
 	}
 
-	public void add(Token t) {
+    /**
+     * Adds a new token to the lexicons backing store.
+     * @param t The token to add.
+     */
+    public void add(Token t) {
 		try {
 			insert.setString(1, t.getValue());
 			insert.setString(2, t.getType());
@@ -72,6 +76,10 @@ public class Lexicon {
 		}
 	}
 
+    /**
+     * Removes a word from the dictionary.
+     * @param word  The word to remove.
+     */
 	public void remove(String word) {
 		try {
 			delete.setString(1, word);
@@ -81,6 +89,10 @@ public class Lexicon {
 		}
 	}
 
+    /**
+     * Dumps the entire lexicon as a simple wordlist.
+     * @return The entire lexicon.
+     */
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 
@@ -101,7 +113,13 @@ public class Lexicon {
 		return buffer.toString();
 	}
 
-	// Gets all instances of word. Returns an UNDEF token if word does not exist or there are database issues.
+    /**
+     * Returns all instances of a word.
+     * @param word  The word you want the token for.
+     * @return  The token or UNDEF, if the word could not be found.
+     */
+
+    //todo: Return a list of tokens instead, returning all the matching tokens and not just the first.
 	public Token get(String word) {
 		Statement s;
 		ResultSet rs;
@@ -113,7 +131,7 @@ public class Lexicon {
 			if(rs.next()) {
 				w = new Token(word, rs.getString("type"), rs.getBoolean("firstPerson"), rs.getBoolean("secondPerson"), rs.getBoolean("thirdPerson"),
 																		rs.getBoolean("pastTense"), rs.getBoolean("presentTense"), rs.getBoolean("futureTense"));
-				//System.err.println("Lexicon loaded: " + w);
+				//System.err.println("LexiconDAO loaded: " + w);
 			}
 			rs.close();
 
@@ -124,42 +142,4 @@ public class Lexicon {
 
 		return null;
 	}
-
-	public LinkedList<Token> tokenize(String line) {
-		String[] words = line.split(" ");
-		LinkedList<Token> tokens = new LinkedList<Token>();
-
-		for (String word : words) {
-			Token w = get(word);
-
-			if(w.getType().equals("UNDEF")) {
-				// If we couldnt find the word perhaps it has a comma or period on the end?
-				// Search this word for periods or commas (usually at the end of a word not by themselves.
-				// todo: ownership on proper nouns ('s).
-                char last = word.charAt(word.length() - 1);
-                if(last == ',' || last == '.') {
-                    w = get(word.substring(0, word.length() - 1));
-                } else {
-                    w = get(word);
-                }
-
-				if(w.getType().equals("UNDEF")) {
-					 System.out.println("Could not find '" + w.getValue() + "' in lexicon.");
-				}
-				if(word.charAt(word.length() - 1) == '.') {
-					tokens.add(get(word.substring(0, word.length() - 1)));
-					tokens.add(new Token(".", "PERIOD", true, true, true, true, true, true));
-				} else if(word.charAt(word.length() - 1) == ',') {
-					tokens.add(get(word.substring(0, word.length() - 1)));
-					tokens.add(new Token(",", "COMMA", true, true, true, true, true, true));
-				}
-			} else {
-				tokens.add(w);
-			}
-		}
-
-		return tokens;
-	}
-
-
 }

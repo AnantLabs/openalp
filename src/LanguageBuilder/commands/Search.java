@@ -2,7 +2,7 @@ package LanguageBuilder.commands;
 
 import GenericComponents.CommandListener;
 import GenericComponents.Console;
-import Core.Lexicon;
+import Core.LexiconDAO;
 
 /**
  * This file is part of OpenALP.
@@ -27,9 +27,9 @@ import Core.Lexicon;
  * @since r37
  */
 public class Search implements CommandListener {
-    Lexicon lexicon;
+    LexiconDAO lexicon;
 
-    public Search(Lexicon lexicon) {
+    public Search(LexiconDAO lexicon) {
         this.lexicon = lexicon;
     }
 
