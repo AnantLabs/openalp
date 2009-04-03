@@ -24,17 +24,15 @@
 
 package Core;
 
-import Graph.Colored;
-import Graph.Labeled;
-import Graph.Drawable;
+import Graph.Node;
+
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class GrammarNode implements Colored, Labeled, Drawable  {
+public class GrammarNode extends Node {
 	private String type;
 	private boolean firstPerson, secondPerson, thirdPerson;
 	private boolean pastTense, presentTense, futureTense;
-	private static int diamater = 40;
 	private static int bubbleSize = 15;
 
 	//----------------------------------------
@@ -111,7 +109,7 @@ public class GrammarNode implements Colored, Labeled, Drawable  {
 	}
 
 	public void drawBubble(Graphics g, int centerX, int centerY, Color color, int angle, String label) {
-		float radius = diamater / 2.0f;
+		float radius = getSize() / 2.0f;
 		int bubbleRadius = (int)(bubbleSize / 2.0f);
 
 		int x = (int)(centerX + radius * Math.cos(Math.toRadians(angle)));
@@ -126,15 +124,15 @@ public class GrammarNode implements Colored, Labeled, Drawable  {
 	}
 
 	public void draw(int x, int y, Graphics g) {
-		int radius = diamater / 2;
+		int radius = getSize() / 2;
 		Rectangle2D area = g.getFontMetrics().getStringBounds(getLabel(), g);
 		int w = (int)area.getWidth();
 		int h = (int)area.getHeight();
 
 		g.setColor(getColor());
-		g.fillOval(x - radius,  y - radius, diamater, diamater);
+		g.fillOval(x - radius,  y - radius, getSize(), getSize());
 		g.setColor(Color.DARK_GRAY);
-		g.drawOval(x - radius,  y - radius, diamater, diamater);
+		g.drawOval(x - radius,  y - radius, getSize(), getSize());
 
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(x - w / 2 - 1, y - h / 2 - 3,w + 2, h + 2);

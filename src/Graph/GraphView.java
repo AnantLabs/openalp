@@ -34,7 +34,6 @@ import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.util.LinkedList;
 
 public class GraphView extends JComponent implements Runnable, MouseMotionListener, MouseListener {
 	private Graph graph;
@@ -85,7 +84,7 @@ public class GraphView extends JComponent implements Runnable, MouseMotionListen
 	@SuppressWarnings({"unchecked"})
 	public Node getNodeAt(int x, int y) {
 		graph.lockNodesRO();
-		for(Node n: (LinkedList<Node>)graph.getNodes()) {
+		for(Node n: graph.getNodes()) {
 			float dx = Math.abs(screenX(n.getX()) - x);
 			float dy = Math.abs(screenY(n.getY()) - y);
 			float distance = (float)Math.sqrt(dx*dx + dy*dy);
@@ -150,13 +149,13 @@ public class GraphView extends JComponent implements Runnable, MouseMotionListen
 
 		g.setFont(new Font("Verdana", Font.PLAIN, 8));
 		// Then draw nodes over top.
-		for(Node node: (LinkedList<Node>)graph.getNodes()) {
+		for(Node node: graph.getNodes()) {
 			int x = screenX(node.getX());
 			int y = screenY(node.getY());
 
 			node.draw(x, y, g);
 
-			for(Edge edge: (LinkedList<Edge>)node.getEdges()) {
+			for(Edge edge: node.getEdges()) {
 				connect(g, edge);
 			}
 		}
@@ -176,15 +175,15 @@ public class GraphView extends JComponent implements Runnable, MouseMotionListen
 			graph.updateNodes();
 			graph.updateNodes();
 
-			if(graph.getDelta() < 0.01f) {
-				graph.waitForUpdate();
-				graph.updateNodes();
-			}
+//			if(graph.getDelta() < 0.01f) {
+//				graph.waitForUpdate();
+//				graph.updateNodes();
+//			}
 
 			repaint();
 			
 			try {
-				Thread.sleep(30);
+				Thread.sleep(1);
 			} catch(InterruptedException e) {
 				System.out.print("Boom!");
 			}

@@ -28,8 +28,8 @@ package Graph;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class Graph<NodeType, EdgeType> {
-	private LinkedList<Node<NodeType, EdgeType>> nodes = new LinkedList<Node<NodeType, EdgeType>>();
+public class Graph {
+	private LinkedList<Node> nodes = new LinkedList<Node>();
 	private static final Random rand = new Random();
 	private float minX, maxX, minY, maxY;
 	private float delta;
@@ -64,7 +64,7 @@ public class Graph<NodeType, EdgeType> {
 		return nodes.get(i);
 	}
 
-	public LinkedList<Node<NodeType, EdgeType>> getNodes() {
+	public LinkedList<Node> getNodes() {
 		return nodes;
 	}
 
@@ -102,32 +102,41 @@ public class Graph<NodeType, EdgeType> {
 	}
 
 	// Creates a new node as part of this graph.
-	public Node<NodeType, EdgeType> createNode() {
-		Node<NodeType, EdgeType> n = new Node<NodeType, EdgeType>();
+	public Node createNode() {
+		Node n = new Node();
 		nodes.add(n);
 		usn++;
 
 		return n;
 	}
 
-	// Creates a new node containing data as part of this graph.
-	public Node<NodeType, EdgeType> createNode(NodeType data) {
-		Node<NodeType, EdgeType> n = new Node<NodeType, EdgeType>(data);
-		nodes.add(n);
-		usn++;
+    public void addNode(Node node) {
+        nodes.add(node);
+        usn++;
+    }
 
-		return n;
-	}
+    public void connect(Edge e) {
+        Node src = e.getSrc();
+        Node dest = e.getDest();
+
+        if(!src.hasChild(dest)) {
+            if(dest.hasChild(src)) {
+                dest.getEdgeTo(src).setDirected(false);
+            } else {
+                src.addEdge(e);
+                dest.addEdge(e);
+            }
+        }
+    }
 
 	// Creates a graph of num randomly connected nodes
 	public void generateRandomNodes(int num) {
-		Node<NodeType, EdgeType> n;
+		Node n;
 		for(int i = 0; i < num; i++) {
 			n = createNode();
 
 			if(i > 0) {
-				n.connectsTo(nodes.get(rand.nextInt(nodes.size())), null);
-//				n.connectsFrom(nodes.get(rand.nextInt(nodes.size())));
+                connect(new Edge(n, nodes.get(rand.nextInt(nodes.size()))));
 			}
 		}
 		usn++;
@@ -176,7 +185,7 @@ public class Graph<NodeType, EdgeType> {
 		float minY = Float.POSITIVE_INFINITY;
 		float delta = 0;
 
-		for(Node<NodeType, EdgeType> n: nodes) {
+		for(Node n: nodes) {
 			delta += n.updatePosition(nodes);
 			if(n.getX() < minX) { minX = n.getX(); }
 			if(n.getX() > maxX) { maxX = n.getX(); }

@@ -28,8 +28,8 @@ import Graph.*;
 import java.util.LinkedList;
 
 public class Grammar {
-	private Node<GrammarNode, GrammarEdge> start, end;
-	private Graph<GrammarNode, GrammarEdge> graph;
+	private Node start, end;
+	private Graph graph;
     private Tokenizer tokenizer;
 	private int totalSentences;
 
@@ -37,22 +37,31 @@ public class Grammar {
 	// Constructors
 	//----------------------------------------
 	public Grammar(LexiconDAO lexicon) {
-		graph = new Graph<GrammarNode, GrammarEdge>();
-		start = graph.createNode(new GrammarNode(new Token("START", "START", false, false, false, false, false, false)));
-		start.lock();
-		end = graph.createNode(new GrammarNode(new Token("END", "END", false, false, false, false, false, false)));
+		graph = new Graph();
         tokenizer = new Tokenizer(lexicon);
+        clear();
+	}
+
+    public void clear() {
+        graph.lockNodesRW();
+        graph.clear();
+		start = new GrammarNode(new Token("START", "START", false, false, false, false, false, false));
+		graph.addNode(start);
+		start.lock();
+		end = new GrammarNode(new Token("END", "END", false, false, false, false, false, false));
+        graph.addNode(end);
 		totalSentences = 0;
+        graph.unlockNodesRW();
 	}
 
 	//----------------------------------------
 	// Simple getters
 	//----------------------------------------
-	public Node<GrammarNode, GrammarEdge> getStart() {
+	public Node getStart() {
 		return start;
 	}
 
-	public Node<GrammarNode, GrammarEdge> getEnd() {
+	public Node getEnd() {
 		return end;
 	}
 
@@ -72,19 +81,20 @@ public class Grammar {
         graph.lockNodesRO();
         // TODO: Ask Dimitry about this, dosent seem right to need to create a new list just so
         //       Java knows that all elements implement a given interface.
-        LinkedList<NodeFilter<GrammarNode>> filterList = new LinkedList<NodeFilter<GrammarNode>>(input);
-        LinkedList<Node<GrammarNode, GrammarEdge>> path = start.getMatchedPath(filterList);
+        LinkedList<NodeFilter> filterList = new LinkedList<NodeFilter>(input);
+        LinkedList<Node> path = start.getMatchedPath(filterList);
 
         // First check the path actually made it to the end...
         float validity = 1;
         if(path.size() > 0 && path.getLast().hasChild(end)) {
             // Walk the path and calculate the validity.
             Node last = null;
-            for(Node<GrammarNode, GrammarEdge> node: path) {
+            for(Node node: path) {
                 Edge edge = node.getEdgeTo(last);
 
                 if(edge != null) {
-                    validity *= edge.getEdgeStrength();
+                    validity *= edge.getStrength();
+                    ((GrammarEdge)edge).activate();
                 }
 
                 last = node;
@@ -163,26 +173,26 @@ public class Grammar {
     public boolean addPath(Sentance tokens) {
         graph.lockNodesRW();
         totalSentences++;
-        Node<GrammarNode, GrammarEdge> pathStart = start;
-        Node<GrammarNode, GrammarEdge> fork;
-        Node<GrammarNode, GrammarEdge> merge;
-        Node<GrammarNode, GrammarEdge> lastNode = null;
-        LinkedList<Node<GrammarNode, GrammarEdge>> matchedPath;
-        LinkedList<Node<GrammarNode, GrammarEdge>> chain;
+        Node pathStart = start;
+        Node fork;
+        Node merge;
+        Node lastNode = null;
+        LinkedList<Node> matchedPath;
+        LinkedList<Node> chain;
 
         do {
             // Consume as many tokens as we can.
-            if(tokens.getFirst().matches(pathStart.getData())) {
+            if(tokens.getFirst().matches(pathStart)) {
                 tokens.removeFirst();
             }
-            LinkedList<NodeFilter<GrammarNode>> filterList = new LinkedList<NodeFilter<GrammarNode>>(tokens);
+            LinkedList<NodeFilter> filterList = new LinkedList<NodeFilter>(tokens);
             matchedPath = pathStart.getMatchedPath(filterList);
 
             // Remove them from the token list and strengthen the paths.
-            for(Node<GrammarNode, GrammarEdge> node: matchedPath) {
-                Edge<GrammarNode, GrammarEdge> edge = node.getEdgeTo(lastNode);
+            for(Node node: matchedPath) {
+                Edge edge = node.getEdgeTo(lastNode);
                 if(edge != null) {
-                    edge.getData().incrementUsageCount();
+                    ((GrammarEdge)edge).incrementUsageCount();
                 }
                 if(node != start && node != end && tokens.size() > 0) {
                     tokens.removeFirst();
@@ -197,10 +207,10 @@ public class Grammar {
             }
 
             // Find the point we can merge back into the graph, and build our chain.
-            chain = new LinkedList<Node<GrammarNode, GrammarEdge>>();
+            chain = new LinkedList<Node>();
             lastNode = null;
             merge = null;
-            Node<GrammarNode, GrammarEdge> node;
+            Node node;
             boolean diverge = false;
             for(Token token: tokens)
             {
@@ -223,10 +233,11 @@ public class Grammar {
                 if(merge != null) {
                     break;
                 }
+                node = new GrammarNode(token);
+                graph.addNode(node);
 
-                node = graph.createNode(new GrammarNode(token));
                 if(lastNode != null) {
-                    lastNode.connectsTo(node, new GrammarEdge(this));
+                    graph.connect(new GrammarEdge(lastNode, node, this));
                 }
 
                 chain.add(node);
@@ -247,10 +258,10 @@ public class Grammar {
 
             // Connect the chain to the graph.
             if(chain.size() > 0) {
-                fork.connectsTo(chain.getFirst(), new GrammarEdge(this));
-                chain.getLast().connectsTo(merge, new GrammarEdge(this));
+                graph.connect(new GrammarEdge(fork, chain.getFirst(), this));
+                graph.connect(new GrammarEdge(chain.getLast(), merge, this));
             } else {
-                fork.connectsTo(merge, new GrammarEdge(this));
+                graph.connect(new GrammarEdge(fork, merge, this));
             }
             pathStart = merge;
 
@@ -259,13 +270,4 @@ public class Grammar {
         graph.unlockNodesRW();
         return true;
     }
-
-	public void clear() {
-		graph.clear();
-		start = graph.createNode(new GrammarNode(new Token("START", "START", false, false, false, false, false, false)));
-		start.lock();
-		end = graph.createNode(new GrammarNode(new Token("END", "END", false, false, false, false, false, false)));
-		totalSentences = 0;
-	}
-
 }

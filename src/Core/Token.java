@@ -32,8 +32,9 @@
 package Core;
 
 import Graph.NodeFilter;
+import Graph.Node;
 
-public class Token implements NodeFilter<GrammarNode> {
+public class Token implements NodeFilter {
 	private String value;
 	private String type;
     private boolean firstPerson, secondPerson, thirdPerson;
@@ -111,7 +112,7 @@ public class Token implements NodeFilter<GrammarNode> {
         return futureTense;
     }
 
-    public boolean matches(GrammarNode target) {
-        return target.matches(this);
+    public boolean matches(Node target) {
+        return ((GrammarNode)target).matches(this);
     }
 }
