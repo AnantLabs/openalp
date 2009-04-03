@@ -173,7 +173,8 @@ public class GraphView extends JComponent implements Runnable, MouseMotionListen
 	public void run() {
 		while(true) {
 			graph.updateNodes();
-			graph.updateNodes();
+            graph.updateNodes();
+            graph.updateNodes();
 
 //			if(graph.getDelta() < 0.01f) {
 //				graph.waitForUpdate();

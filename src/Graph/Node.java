@@ -35,19 +35,18 @@ import java.awt.geom.Rectangle2D;
 
 public class Node {
 	private LinkedList<Edge> edges = new LinkedList<Edge>();
-	private static float springeness = 0.70f;
-	private static float springLength = 30.0f;
-	private static float repelClamp = 100.0f;
-    private static final float repelForce = 10.0f;
-	private static float falloff = 0.1f;
-	private float attractionX, attractionY;
-	private float repulsionX, repulsionY;
+	public static float springyness = 1.3f;
+    public static float springeynessFalloff = 0.25f;
+	public static float springLength = 1.0f;
+    public static float springLengthExtra = 1.66f;
 	private float x = (float)Math.random();
 	private float y = (float)Math.random();
 	private float dx = 0;
 	private float dy = 0;
 	private static final int size = 37;
 	private boolean locked = false;
+    private static final float dampening = 0.75f;
+
 
     //----------------------------------------
 	// Constructors
@@ -79,8 +78,12 @@ public class Node {
 		return edges;
 	}
 
-    // If the nodes are directly connected return the edge connecting them,
-    // Otherwise return null.
+    /**
+     * Returns the edge that connects this node to the destination node. Does not take into account
+     * the direction of the edge.
+     * @param destination The node you want the edge to.
+     * @return an edge that connects to destination, or null if one does not exists.
+     */
     public Edge getEdgeTo(Node destination) {
         for(Edge e: edges) {
             if(e.getDest() == destination || e.getSrc() == destination) {
@@ -210,6 +213,40 @@ public class Node {
 
     }
 
+    public int getDistanceTo(Node destination) {
+        Queue<LinkedList<Node>> searchQueue = new ConcurrentLinkedQueue<LinkedList<Node>>();
+        LinkedList<Node> examined = new LinkedList<Node>();
+
+        LinkedList<Node> start = new LinkedList<Node>();
+        start.add(this);
+
+        searchQueue.add(start);
+
+        LinkedList<Node> path;
+
+        while((path = searchQueue.poll()) != null) {
+
+            Node lastNode = path.getLast();
+
+            examined.add(lastNode);
+
+            if (lastNode == destination) {
+                return path.size() - 1;
+            }
+
+            for(Node linkedNode: lastNode.getConnectedNodes(false)) {
+                if(!examined.contains(linkedNode)) {
+                    LinkedList<Node> newPath = new LinkedList<Node>(path);
+                    newPath.add(linkedNode);
+
+                    searchQueue.add(newPath);
+                }
+            }
+        }
+
+        return 0;
+    }
+
 	//----------------------------------------
 	// Non mutating logic
 	//----------------------------------------
@@ -227,14 +264,18 @@ public class Node {
 		return outgoing;
 	}
 
+    public LinkedList<Node> getConnectedNodes() {
+        return getConnectedNodes(true);
+    }
+
 	// Returns a list of all nodes that can be reached from this node.
-	public LinkedList<Node> getConnectedNodes() {
+	public LinkedList<Node> getConnectedNodes(boolean directed) {
 		LinkedList<Node> connected = new LinkedList<Node>();
 
 		for(Edge edge: edges) {
 			if(edge.getSrc() == this) {
 				connected.add(edge.getDest());
-			} else if(edge.getDest() == this && !edge.isDirected()) {
+			} else if(edge.getDest() == this && !(edge.isDirected() && directed)) {
 				connected.add(edge.getSrc());
 			}
 		}
@@ -303,98 +344,52 @@ public class Node {
         }
     }
 
-	//----------------------------------------
-	// Mutators 
-	//----------------------------------------
+    public Force calcSpringForce(Node that) {
+       // System.out.println(this.getLabel() + " -> " + that.getLabel());
+        float dx = Math.abs(this.x - that.x);
+        float dy = Math.abs(this.y - that.y);
+        float hyp = (float)Math.sqrt(dx * dx + dy * dy);
+        if(hyp == 0.0f) return new Force(0.0f, 0.0f);
 
-	// Updates the repulsive forces based on all the other nodes in the graph.
-	public void calcRepulsion(LinkedList<Node> graphNodes) {
-		repulsionX = 0;
-		repulsionY = 0;
+        float theta = (float)(Math.atan(dx/dy));
 
-		for(Node q: graphNodes) {
-			if(q != this) {
-				float dx = Math.abs(x - q.x);
-				float dy = Math.abs(y - q.y);
-				float hyp = (float)Math.sqrt(dx * dx + dy * dy);
-				float theta = (float)(Math.atan(dx/dy));
-				int directionX = (x > q.x) ? -1 : 1;
-				int directionY = (y > q.y) ? -1 : 1;
-				float force = -repelForce / hyp;
+        if(Float.isNaN(theta)) return new Force(0.0f, 0.0f);
 
-				repulsionX += force * (float)(Math.sin(theta) / hyp) * directionX;
-				repulsionY += force * (float)(Math.cos(theta) / hyp) * directionY;
+        float directionX = (this.x > that.x) ? -1 : 1;
+        float directionY = (this.y > that.y) ? -1 : 1;
+        float distance = getDistanceTo(that);
 
-				// There is a 'popcorn' like effect that happens when two nodes get too close to each other
-				// probaby as a result of multiple springs pushing on it. To try and limit this the maximum
-				// repulsion force is limited to a certain value.
-				// Todo: logarithmic scaling between 0 and repelClamp rather then a hard clamp?
-				if(repulsionY > repelClamp) {
-					repulsionY = repelClamp;
-				} else if (repulsionY < -repelClamp) {
-					repulsionY = -repelClamp;
-				}
+        if(distance == 0) return new Force(0.0f, 0.0f);
 
-				if(repulsionX > repelClamp) {
-					repulsionX = repelClamp;
-				} else if (repulsionX < -repelClamp) {
-					repulsionX = -repelClamp;
-				}
-			}
-		}
-	}
+        float force = -(springyness * (float)Math.pow(springeynessFalloff, distance)) * ((springLength * (distance + (springLengthExtra * (distance - 1)))) - hyp);
 
-	// update the attraction based on all connected nodes (either direction).
-	public void calcAttraction() {
-		int directionX, directionY;
-		float dx, dy, hyp, theta;
-		Node that;
-		attractionX = 0;
-		attractionY = 0;
 
-		for(Edge edge: edges) {
-			if(!(edge.getSrc() == this && edge.getDest() == this)) {
-				if(this == edge.getSrc()) {
-					that = edge.getDest();
-				} else {
-					that = edge.getSrc();
-				}
-				dx = Math.abs(this.x - that.x);
-				dy = Math.abs(this.y - that.y);
-				hyp = (float)Math.sqrt(dx * dx + dy * dy);
-				theta = (float)(Math.atan(dx/dy));
+        Force f =  new Force(force * (float)(Math.sin(theta) / hyp) * directionX,
+                             force * (float)(Math.cos(theta) / hyp) * directionY);
 
-				directionX = (this.x > that.x) ? -1 : 1;
-				directionY = (this.y > that.y) ? -1 : 1;
+        if(distance > 1) {
+            //System.out.println(f);
+        }
 
-				float force = -(springeness * edge.getStrength()) * (springLength - hyp);
+        return f;
+    }
 
-				attractionX += force * (float)(Math.sin(theta) / hyp) * directionX;
-				attractionY += force * (float)(Math.cos(theta) / hyp) * directionY;
-			}
-		}
-	}
+	public float updatePosition(LinkedList<Node> nodes) {
+        if(locked) return 0.0f;
 
-	// updates position based on the attraction and replusion
-	public float updatePosition(LinkedList<Node> graphNodes) {
-		if(!locked) {
+        Force net = new Force(0,0);
 
-			calcRepulsion(graphNodes);
-			calcAttraction();
-			float delta = Math.abs(repulsionX + attractionX) + Math.abs(repulsionY + attractionY);  // Its not really accurate but it is fast!
-			dx += (repulsionX + attractionX);
-			dy += (repulsionY + attractionY);
-			x += dx;
-			y += dy;
+        for(Node node: nodes) net.add(calcSpringForce(node));
 
-			dx *= falloff;
-			dy *= falloff;
+        dx = (dx + net.getX()) * dampening;
+        dy = (dy + net.getY()) * dampening;
 
-			return delta;
-		} else {
-			return 0.0f;
-		}
-	}
+        x += dx;
+        y += dy;
+
+        return (dx * dx) + (dy * dy);
+    }
+
 
     public boolean hasChild(Node child) {
         for(Node node: getConnectedNodes()) {

@@ -38,13 +38,11 @@ public class Search implements CommandListener {
     }
 
     public void runCommand(Console console, String[] argv, int argc) {
-        if(argv[0].equalsIgnoreCase("search")) {
-			if(argv.length > 1) {
-				System.out.println(lexicon.get(argv[1]));
-			} else {
-				System.out.println("Please give a word to search for from the lexicon:");
-				System.out.println(lexicon);
-			}
-		}
+        if(argv.length > 1) {
+            System.out.println(lexicon.get(argv[1]));
+        } else {
+            System.out.println("Please give a word to search for from the lexicon:");
+            System.out.println(lexicon);
+        }
     }
 }
