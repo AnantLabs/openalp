@@ -31,16 +31,23 @@
 
 package Core;
 
-import Graph.Colored;
-import Graph.VariableStrength;
+import Graph.Edge;
+import Graph.Node;
+
 import java.awt.*;
 
-public class GrammarEdge implements Colored, VariableStrength {
+public class GrammarEdge extends Edge {
 	private int usageCount = 1;
     private Grammar grammar;
+    private float activityFactor = 1.0f;
 
-    public GrammarEdge(Grammar grammar) {
+    public GrammarEdge(Node src, Node dest, Grammar grammar) {
+        super(src, dest);
+        this.grammar = grammar;
+    }
 
+    public GrammarEdge(Node src, Node dest, boolean directed, Grammar grammar) {
+        super(src, dest, directed);
         this.grammar = grammar;
     }
 
@@ -63,11 +70,33 @@ public class GrammarEdge implements Colored, VariableStrength {
 
     public void incrementUsageCount(){
 		usageCount++;
+        activate();
 	}
+
+    public void activate() {
+        activityFactor = 1.0f;
+    }
+
+    public void age() {
+        activityFactor *= 0.99;
+    }
 
 
     public Color getColor() {
         float weight = getWeight();
-        return new Color(0.8f - weight * 0.6f, 0.2f + weight * 0.6f, 0.5f - Math.abs(weight - 0.5f));
+        age();
+
+        float red = 0.8f - weight * 0.6f - activityFactor;
+        float green =  0.2f + weight * 0.6f + (activityFactor / 2.0f);
+        float blue = 0.5f - Math.abs(weight - 0.5f) + activityFactor;
+
+        if(red > 1.0f) red = 1.0f;
+        if(red < 0.0f) red = 0.0f;
+        if(green > 1.0f) green = 1.0f;
+        if(green < 0.0f) green = 0.0f;
+        if(blue > 1.0f) blue = 1.0f;
+        if(blue < 0.0f) blue = 0.0f;
+
+        return new Color(red, green, blue);
     }
 }

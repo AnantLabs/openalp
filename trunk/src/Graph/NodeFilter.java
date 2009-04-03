@@ -24,6 +24,6 @@
 
 package Graph;
 
-public interface NodeFilter<NodeType> {
-    public boolean matches(NodeType target);
+public interface NodeFilter {
+    public boolean matches(Node target);
 }

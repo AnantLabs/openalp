@@ -22,8 +22,14 @@
 
 package LanguageBuilder;
 
+import Core.FileParser;
+
 public class StartLanguageBuilder {
     public static void main(String[] args) {
-		new LanguageBuilderFrame();
+		LanguageBuilderFrame lb = new LanguageBuilderFrame();
+
+        FileParser parser = new FileParser(lb.grammar);
+        parser.parseFile("data/conjunctions.txt");
+        parser.parseFile("data/trainingset.txt");
 	}
 }

@@ -147,14 +147,15 @@ public class Console extends JPanel implements ActionListener, KeyListener {
 		String command = input.getText();
 		
 		addCommand(command);
+        if(command.length() > 0) {
+            if(command.charAt(0) == '\\' || command.charAt(0) == '/') {
+                runCommand(command.substring(1));
+            } else {
+                String[] word = command.split(" ");
+                defaultListener.runCommand(this, word, word.length);
 
-		if(command.charAt(0) == '\\' || command.charAt(0) == '/') {
-			runCommand(command.substring(1));
-		} else {
-            String[] word = command.split(" ");
-			defaultListener.runCommand(this, word, word.length);
-			
-		}
+            }
+        }
 
 		input.setText("");
 	}
