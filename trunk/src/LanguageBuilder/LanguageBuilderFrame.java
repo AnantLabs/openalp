@@ -66,6 +66,7 @@ public class LanguageBuilderFrame extends JFrame {
         console.addCommandListener(new Search(lexicon));
         console.addCommandListener(new Test(grammar));
         console.addCommandListener(new Train(grammar));
+        console.addCommandListener(new Set());
         
         console.setDefaultListener(new Check(grammar));
     }

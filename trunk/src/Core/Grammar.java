@@ -47,7 +47,6 @@ public class Grammar {
         graph.clear();
 		start = new GrammarNode(new Token("START", "START", false, false, false, false, false, false));
 		graph.addNode(start);
-		start.lock();
 		end = new GrammarNode(new Token("END", "END", false, false, false, false, false, false));
         graph.addNode(end);
 		totalSentences = 0;
