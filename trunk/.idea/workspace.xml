@@ -16,21 +16,70 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graph/Node.java" afterPath="$PROJECT_DIR$/src/Graph/Node.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/LanguageBuilder/LanguageBuilderFrame.java" afterPath="$PROJECT_DIR$/src/LanguageBuilder/LanguageBuilderFrame.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Graph/Force.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Search.java" afterPath="$PROJECT_DIR$/src/LanguageBuilder/commands/Search.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Graph/GraphView.java" afterPath="$PROJECT_DIR$/src/Graph/GraphView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenALP.iml" afterPath="$PROJECT_DIR$/OpenALP.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build-before-profiler.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/openalp/core" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Add.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Add.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Define.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Define.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/GenericComponents/Console.java" afterPath="$PROJECT_DIR$/src/net/openalp/generic/swing/Console.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Reset.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Reset.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Core/Grammar.java" afterPath="$PROJECT_DIR$/src/Core/Grammar.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Check.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Core/FileParser.java" afterPath="$PROJECT_DIR$/src/net/openalp/core/FileParser.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/LanguageBuilderFrame.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/LanguageBuilderFrame.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Graph/Edge.java" afterPath="$PROJECT_DIR$/src/net/openalp/graph/Edge.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Graph/GraphView.java" afterPath="$PROJECT_DIR$/src/net/openalp/graph/GraphView.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Reset.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/openalp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/run.sh" afterPath="$PROJECT_DIR$/run.sh" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Graph/Graph.java" afterPath="$PROJECT_DIR$/src/net/openalp/graph/Graph.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Train.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Define.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Set.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Graph/NodeFilter.java" afterPath="$PROJECT_DIR$/src/net/openalp/graph/NodeFilter.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Exit.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Exit.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Set.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Set.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/GenericComponents" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Train.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Train.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Test/SimpleGrammarTests.java" afterPath="$PROJECT_DIR$/src/net/openalp/test/SimpleGrammarTests.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/openalp/generic" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Graph/Force.java" afterPath="$PROJECT_DIR$/src/net/openalp/graph/Force.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/LanguageBuilder/commands/Set.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Help.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Help.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Graph/Node.java" afterPath="$PROJECT_DIR$/src/net/openalp/graph/Node.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Add.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Test.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Test.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/openalp/graph" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Remove.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Core/Token.java" afterPath="$PROJECT_DIR$/src/net/openalp/core/Token.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Test.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Core/Sentance.java" afterPath="$PROJECT_DIR$/src/net/openalp/core/Sentance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Remove.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Remove.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Check.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Check.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Core" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Core/Tokenizer.java" afterPath="$PROJECT_DIR$/src/net/openalp/core/Tokenizer.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/GenericComponents/CommandListener.java" afterPath="$PROJECT_DIR$/src/net/openalp/generic/swing/CommandListener.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Help.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Core/LexiconDAO.java" afterPath="$PROJECT_DIR$/src/net/openalp/core/LexiconDAO.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/StartLanguageBuilder.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/StartLanguageBuilder.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Search.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/openalp/test" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Graph" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Core/GrammarEdge.java" afterPath="$PROJECT_DIR$/src/net/openalp/core/GrammarEdge.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Search.java" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Search.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Core/GrammarNode.java" afterPath="$PROJECT_DIR$/src/net/openalp/core/GrammarNode.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder/commands/Exit.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Test" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/LanguageBuilder" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Core/Grammar.java" afterPath="$PROJECT_DIR$/src/net/openalp/core/Grammar.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/openalp/generic/swing" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenALP.iml" afterPath="$PROJECT_DIR$/OpenALP.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/openalp/languagebuilder/commands" />
     </list>
     <ignored path="OpenALP.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -90,92 +139,81 @@
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="Node.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Graph/Node.java">
+        <entry file="file://$PROJECT_DIR$/src/net/openalp/graph/Node.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="223" column="32" selection-start="6846" selection-end="6846" vertical-scroll-proportion="5.910394">
+            <state line="223" column="0" selection-start="6858" selection-end="6858" vertical-scroll-proportion="0.97633135">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Set.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LanguageBuilder/commands/Set.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="61" selection-start="1141" selection-end="1159" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="StartLanguageBuilder.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LanguageBuilder/StartLanguageBuilder.java">
+        <entry file="file://$PROJECT_DIR$/src/net/openalp/languagebuilder/StartLanguageBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="13" selection-start="882" selection-end="882" vertical-scroll-proportion="0.0">
+            <state line="26" column="13" selection-start="906" selection-end="906" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="LanguageBuilderFrame.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LanguageBuilder/LanguageBuilderFrame.java">
+        <entry file="file://$PROJECT_DIR$/src/net/openalp/languagebuilder/LanguageBuilderFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="43" selection-start="2397" selection-end="2397" vertical-scroll-proportion="0.0">
+            <state line="70" column="43" selection-start="2467" selection-end="2467" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Reset.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LanguageBuilder/commands/Reset.java">
+        <entry file="file://$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Reset.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="45" selection-start="993" selection-end="1008" vertical-scroll-proportion="0.0">
+            <state line="28" column="45" selection-start="1033" selection-end="1048" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="GraphView.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Graph/GraphView.java">
+        <entry file="file://$PROJECT_DIR$/src/net/openalp/graph/GraphView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="176" column="32" selection-start="6114" selection-end="6114" vertical-scroll-proportion="0.0">
+            <state line="176" column="32" selection-start="6126" selection-end="6126" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Grammar.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Core/Grammar.java">
+        <entry file="file://$PROJECT_DIR$/src/net/openalp/core/Grammar.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="29" selection-start="1584" selection-end="1584" vertical-scroll-proportion="0.0">
+            <state line="52" column="29" selection-start="1712" selection-end="1712" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Graph.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Graph/Graph.java">
+        <entry file="file://$PROJECT_DIR$/src/net/openalp/graph/Graph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="179" column="16" selection-start="4275" selection-end="4275" vertical-scroll-proportion="0.0">
+            <state line="179" column="16" selection-start="4287" selection-end="4287" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Force.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Graph/Force.java">
+        <entry file="file://$PROJECT_DIR$/src/net/openalp/graph/Force.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="15" selection-start="373" selection-end="373" vertical-scroll-proportion="0.0">
+            <state line="22" column="15" selection-start="385" selection-end="385" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Search.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LanguageBuilder/commands/Search.java">
+        <entry file="file://$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Search.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="38" selection-start="1141" selection-end="1141" vertical-scroll-proportion="0.0">
+            <state line="35" column="32" selection-start="1181" selection-end="1181" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -233,7 +271,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
+          <option name="myItemId" value="openALP" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -247,99 +285,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="Test" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="LanguageBuilder" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="LanguageBuilder" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="commands" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="Graph" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
+          <option name="myItemId" value="openALP" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
@@ -357,7 +303,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
+          <option name="myItemId" value="openALP" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
@@ -365,7 +311,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="Core" />
+          <option name="myItemId" value="openalp" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -379,33 +325,11 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
+          <option name="myItemId" value="openALP" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
           <option name="myItemId" value="data" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="OpenALP" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="build" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="classes" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -435,19 +359,126 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="RunManagerConfig.showSettingsBeforeRunnig" value="false" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="preferences.pluginManager" />
+    <property name="options.lastSelected" value="preferences.sourceCode" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="net.openalp.test" />
+      <recent name="net.openalp.languagebuilder" />
+      <recent name="net.openalp.languagebuilder.commands" />
+      <recent name="net.openalp.graph" />
+      <recent name="net.openalp.generic.swing" />
+    </key>
+  </component>
+  <component name="RestoreUpdateTree">
+    <UpdateInfo date="7/04/09 10:30 AM" ActionInfo="_Update">
+      <UpdatedFiles>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated from server" />
+          <option name="myStatusName" value="Changed on server" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CHANGED_ON_SERVER" />
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Updated" />
+            <option name="myStatusName" value="Changed" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="UPDATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Created" />
+            <option name="myStatusName" value="Created" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="CREATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Deleted" />
+            <option name="myStatusName" value="Deleted" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="true" />
+            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Restored" />
+            <option name="myStatusName" value="Will be restored" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="RESTORED" />
+            <PATH vcs="svn" revision="52">$PROJECT_DIR$/.idea/libraries/lib.xml</PATH>
+          </FILE-GROUP>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Modified" />
+          <option name="myStatusName" value="Modified" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MODIFIED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Skipped" />
+          <option name="myStatusName" value="Skipped" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SKIPPED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with conflicts" />
+          <option name="myStatusName" value="Will be merged with conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_CONFLICTS" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged" />
+          <option name="myStatusName" value="Will be merged" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Not in repository" />
+          <option name="myStatusName" value="Not in repository" />
+          <option name="mySupportsDeletion" value="true" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UNKNOWN" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally added" />
+          <option name="myStatusName" value="Locally added" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_ADDED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally removed" />
+          <option name="myStatusName" value="Locally removed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_REMOVED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Switched" />
+          <option name="myStatusName" value="Switched" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SWITCHED" />
+        </FILE-GROUP>
+      </UpdatedFiles>
+    </UpdateInfo>
   </component>
   <component name="RunManager" selected="Application.LanguageBuilder">
     <tempConfiguration default="false" name="SimpleGrammarTests" type="Application" factoryName="Application" enabled="false" merge="false" sample_coverage="true" runner="emma">
-      <option name="MAIN_CLASS_NAME" value="Test.SimpleGrammarTests" />
+      <option name="MAIN_CLASS_NAME" value="net.openalp.test.SimpleGrammarTests" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -470,32 +501,6 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-    </configuration>
-    <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false" runner="emma">
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="ANNOTATION_TYPE" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <option name="PROPERTIES_FILE" />
-      <envs />
-      <properties />
-      <listeners />
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
@@ -522,27 +527,8 @@
       <module name="" />
       <envs />
     </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false" runner="emma">
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-    </configuration>
     <configuration default="false" name="LanguageBuilder" type="Application" factoryName="Application" enabled="false" merge="false" sample_coverage="true" runner="emma">
-      <option name="MAIN_CLASS_NAME" value="LanguageBuilder.StartLanguageBuilder" />
+      <option name="MAIN_CLASS_NAME" value="net.openalp.languagebuilder.StartLanguageBuilder" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -569,6 +555,51 @@
       <item index="0" class="java.lang.String" itemvalue="Application.SimpleGrammarTests" />
       <item index="1" class="java.lang.String" itemvalue="Application.LanguageBuilder" />
     </list>
+    <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false" runner="emma">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false" runner="emma">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+    </configuration>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
@@ -599,6 +630,7 @@
     <option name="MERGE_DRY_RUN" value="false" />
     <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
     <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
     <configuration useDefault="false">/home/adam/.subversion</configuration>
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
   </component>
@@ -623,32 +655,32 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1688" height="1028" extended-state="6" />
+    <frame x="2" y="26" width="1280" height="749" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294509" sideWeight="0.5" order="7" side_tool="false" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32833335" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32666665" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.327787" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39863327" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Dataflow to this" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294509" sideWeight="0.5" order="7" side_tool="false" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.0" order="7" side_tool="false" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17198178" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294509" sideWeight="0.5" order="6" side_tool="false" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.223515" sideWeight="0.6651481" order="0" side_tool="false" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22340426" sideWeight="0.66333336" order="0" side_tool="false" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Web Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32687926" sideWeight="0.5" order="2" side_tool="false" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.325" sideWeight="0.5" order="2" side_tool="false" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" />
     </layout>
   </component>
@@ -727,14 +759,14 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/LanguageBuilder/commands/Train.java">
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Train.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="48" column="46" selection-start="1287" selection-end="1510" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Core/GrammarNode.java">
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/core/GrammarNode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="55" column="40" selection-start="1773" selection-end="1773" vertical-scroll-proportion="0.0">
           <folding />
@@ -748,84 +780,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Core/GrammarEdge.java">
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/core/GrammarEdge.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="89" column="68" selection-start="2527" selection-end="2527" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GenericComponents/Console.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="157" column="9" selection-start="4748" selection-end="4748" vertical-scroll-proportion="0.95928144">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graph/Edge.java">
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/graph/Edge.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="63" column="17" selection-start="1724" selection-end="1724" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graph/Graph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="179" column="16" selection-start="4275" selection-end="4275" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Core/Grammar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="29" selection-start="1584" selection-end="1584" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graph/GraphView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="176" column="32" selection-start="6114" selection-end="6114" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LanguageBuilder/commands/Reset.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="45" selection-start="993" selection-end="1008" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LanguageBuilder/commands/Search.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="38" selection-start="1141" selection-end="1141" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graph/Force.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="15" selection-start="373" selection-end="373" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LanguageBuilder/StartLanguageBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="13" selection-start="882" selection-end="882" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LanguageBuilder/LanguageBuilderFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="43" selection-start="2397" selection-end="2397" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LanguageBuilder/commands/Set.java">
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Set.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="37" column="61" selection-start="1141" selection-end="1159" vertical-scroll-proportion="0.0">
           <folding>
@@ -834,9 +803,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Graph/Node.java">
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/languagebuilder/StartLanguageBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="223" column="32" selection-start="6846" selection-end="6846" vertical-scroll-proportion="5.910394">
+        <state line="26" column="13" selection-start="906" selection-end="906" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/languagebuilder/LanguageBuilderFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="43" selection-start="2467" selection-end="2467" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Reset.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="45" selection-start="1033" selection-end="1048" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/graph/GraphView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="176" column="32" selection-start="6126" selection-end="6126" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/core/Grammar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="29" selection-start="1712" selection-end="1712" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/graph/Graph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="179" column="16" selection-start="4287" selection-end="4287" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/graph/Force.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="15" selection-start="385" selection-end="385" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/languagebuilder/commands/Search.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="32" selection-start="1181" selection-end="1181" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/openalp/graph/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="223" column="0" selection-start="6858" selection-end="6858" vertical-scroll-proportion="0.97633135">
           <folding />
         </state>
       </provider>
