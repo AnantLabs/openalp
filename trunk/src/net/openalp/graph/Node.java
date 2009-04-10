@@ -35,8 +35,8 @@ import java.awt.geom.Rectangle2D;
 
 public class Node {
 	private LinkedList<Edge> edges = new LinkedList<Edge>();
-	public static float springyness = 1.3f;
-    public static float springeynessFalloff = 0.25f;
+	public static float springyness = 2.0f;
+    public static float springeynessFalloff = 0.2f;
 	public static float springLength = 1.0f;
     public static float springLengthExtra = 1.66f;
 	private float x = (float)Math.random();
@@ -96,14 +96,23 @@ public class Node {
 
     // Searches from this node through the graph to find a node matching the filter.
     // If none is found it returns null, otherwise it returns the path to that node.
-    public Node findMatchingNode(NodeFilter filter) {
+    public Node findMatchingNode(NodeFilter filter, boolean selfless) {
         Queue<LinkedList<Node>> searchQueue = new ConcurrentLinkedQueue<LinkedList<Node>>();
         LinkedList<Node> examined = new LinkedList<Node>();
 
-        LinkedList<Node> start = new LinkedList<Node>();
-        start.add(this);
+        if(selfless) {
+            for(Node node: getConnectedNodes()) {
+                LinkedList<Node> start = new LinkedList<Node>();
+                start.add(node);
+                searchQueue.add(start);
+            }
+        } else {
+            LinkedList<Node> start = new LinkedList<Node>();
+            start.add(this);
+            searchQueue.add(start);
+        }
 
-        searchQueue.add(start);
+
 
         LinkedList<Node> path;
 
@@ -399,5 +408,9 @@ public class Node {
         }
         
         return false;
+    }
+
+    public boolean isTerminal() {
+        return getOutgoingEdges().size() == 0;
     }
 }
