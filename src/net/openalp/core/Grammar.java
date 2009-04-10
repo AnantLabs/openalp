@@ -32,7 +32,7 @@ import net.openalp.graph.Node;
 import net.openalp.graph.NodeFilter;
 
 public class Grammar {
-	private Node start, end;
+	private Node start;
 	private Graph graph;
     private Tokenizer tokenizer;
 	private int totalSentences;
@@ -51,8 +51,6 @@ public class Grammar {
         graph.clear();
 		start = new GrammarNode(new Token("START", "START", false, false, false, false, false, false));
 		graph.addNode(start);
-		end = new GrammarNode(new Token("END", "END", false, false, false, false, false, false));
-        graph.addNode(end);
 		totalSentences = 0;
         graph.unlockNodesRW();
 	}
@@ -62,10 +60,6 @@ public class Grammar {
 	//----------------------------------------
 	public Node getStart() {
 		return start;
-	}
-
-	public Node getEnd() {
-		return end;
 	}
 
 	public Graph getGraph() {
@@ -89,7 +83,7 @@ public class Grammar {
 
         // First check the path actually made it to the end...
         float validity = 1;
-        if(path.size() > 0 && path.getLast().hasChild(end)) {
+        if(path.size() > 0 && path.getLast().isTerminal()) {
             // Walk the path and calculate the validity.
             Node last = null;
             for(Node node: path) {
@@ -178,10 +172,9 @@ public class Grammar {
         totalSentences++;
         Node pathStart = start;
         Node fork;
-        Node merge;
         Node lastNode = null;
         LinkedList<Node> matchedPath;
-        LinkedList<Node> chain;
+        Chain chain;
 
         do {
             // Consume as many tokens as we can.
@@ -197,7 +190,7 @@ public class Grammar {
                 if(edge != null) {
                     ((GrammarEdge)edge).incrementUsageCount();
                 }
-                if(node != start && node != end && tokens.size() > 0) {
+                if(node != start && tokens.size() > 0) {
                     tokens.removeFirst();
                 }
                 lastNode = node;
@@ -209,68 +202,30 @@ public class Grammar {
                 fork = matchedPath.getLast();
             }
 
-            // Find the point we can merge back into the graph, and build our chain.
-            chain = new LinkedList<Node>();
-            lastNode = null;
-            merge = null;
-            Node node;
-            boolean diverge = false;
-            for(Token token: tokens)
-            {
-                // If a conjunction appears in a chain then it can only rejoin the graph
-                // when a sentance terminator appears.
-                if(token.getType().equals("CONJ")) {
-                    diverge = true;
-                }
-                
-                if(diverge) {
-                    if(token.getType().equals("PERIOD")) {
-                        merge = fork.findMatchingNode(token);
-                    } else {
-                        merge = null;
-                    }
-                } else {
-                    merge = fork.findMatchingNode(token);
-                }
-
-                if(merge != null) {
-                    break;
-                }
-                node = new GrammarNode(token);
-                graph.addNode(node);
-
-                if(lastNode != null) {
-                    graph.connect(new GrammarEdge(lastNode, node, this));
-                }
-
-                chain.add(node);
-
-                lastNode = node;
-
-            }
-
-
-            // Remove the used tokens.
-            int i = 0;
-            while (i < chain.size()) {
-                tokens.removeFirst();
-                i++;
-            }
-
-            if(merge == null) merge = end;
+            chain = new Chain(this, tokens, fork);
 
             // Connect the chain to the graph.
-            if(chain.size() > 0) {
-                graph.connect(new GrammarEdge(fork, chain.getFirst(), this));
-                graph.connect(new GrammarEdge(chain.getLast(), merge, this));
+
+            if(chain.getMergePoint() != null) {
+                if(chain.size() == 0) {
+                    graph.connect(new GrammarEdge(fork, chain.getMergePoint(), this));
+                } else {
+                    graph.connect(new GrammarEdge(fork, chain.getFirst(), this));
+                    graph.connect(new GrammarEdge(chain.getLast(), chain.getMergePoint(), this));
+                }
+
+                pathStart = chain.getMergePoint();
             } else {
-                graph.connect(new GrammarEdge(fork, merge, this));
+                if(chain.size() > 0) {
+                    graph.connect(new GrammarEdge(fork, chain.getFirst(), this));
+                    pathStart = chain.getLast();
+                }
             }
-            pathStart = merge;
 
         } while(tokens.size() > 0);
 
         graph.unlockNodesRW();
         return true;
     }
+        
 }

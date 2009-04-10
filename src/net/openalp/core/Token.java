@@ -112,6 +112,11 @@ public class Token implements NodeFilter {
         return futureTense;
     }
 
+    public boolean isTerminator() {
+        //TODO: ADD ME TO DICTONARY!!!!!
+        return type.equalsIgnoreCase("period");
+    }
+
     public boolean matches(Node target) {
         return ((GrammarNode)target).matches(this);
     }
