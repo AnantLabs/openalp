@@ -19,7 +19,7 @@
     <option name="OTHER_OPTIONS" />
     <option name="HEAP_SIZE" />
     <option name="LOCALE" value="en" />
-    <option name="OPEN_IN_BROWSER" value="true" />
+    <option name="OPEN_IN_BROWSER" value="false" />
   </component>
   <component name="ProjectDetails">
     <option name="projectName" value="OpenALP" />

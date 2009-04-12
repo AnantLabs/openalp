@@ -30,13 +30,27 @@ import java.util.LinkedList;
  */
 public class Chain extends LinkedList<Node> {
     private Node merge;
+    private Node fork;
 
-    public Chain(Grammar grammar, Sentance tokens, Node fork) {
+    /**
+     * Creates a new chain starting at fork. It will also
+     * mark the merge point if one exists. It will not join
+     * the chain to the graph or change the graph in any way.
+     *
+     * The actual algorithm will simply search for the
+     * first token in the sentance that exists in fork's decendants.
+     *
+     * @param grammar The grammar we are building
+     * @param sentance The partially parsed sentance.
+     * @param fork The point that the sentance broke from the graph.
+     */
+    public Chain(Grammar grammar, Sentance sentance, Node fork) {
+        this.fork = fork;
         Node lastNode = null;
         Node node;
         boolean diverge = false;
 
-        for(Token token: tokens) {
+        for(Token token: sentance) {
             // If a conjunction appears in a chain then it can only rejoin the grammar
             // when a sentance terminator appears.
             if(token.getType().equals("CONJ") || token.isTerminator()) {
@@ -63,13 +77,50 @@ public class Chain extends LinkedList<Node> {
 
         }
 
-        // Remove the used tokens.
+        // Remove the used sentance.
         for(int i = 0; i < size(); i++) {
-            tokens.removeFirst();
+            sentance.removeFirst();
         }
     }
 
+    /**
+     * @return The point that the chain rejoins the graph, or null if its terminal.
+     */
     public Node getMergePoint() {
         return merge;
+    }
+
+    /**
+     * @return The point that the chain left the graph.
+     */
+    public Node getForkPoint() {
+        return fork;
+    }
+
+    /**
+     * Merges a chain into a grammar and returns the last valid token which is
+     * the merge point in most castes, the last token in terminal chains
+     * and the fork point in zero length terminal cases.
+     * @param grammar The grammar to use
+     * @return The last node touched in the merge.
+     */
+    public Node mergeInto(Grammar grammar) {
+        if(merge != null) {
+            if(size() == 0) {
+                grammar.getGraph().connect(new GrammarEdge(fork, merge, grammar));
+            } else {
+                grammar.getGraph().connect(new GrammarEdge(fork, getFirst(), grammar));
+                grammar.getGraph().connect(new GrammarEdge(getLast(), merge, grammar));
+            }
+
+            return merge;
+        } else {
+            if(size() > 0) {
+                grammar.getGraph().connect(new GrammarEdge(fork, getFirst(), grammar));
+                return getLast();
+            } else {
+                return fork;
+            }
+        }
     }
 }
