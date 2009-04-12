@@ -25,19 +25,36 @@
 package net.openalp.core;
 import java.io.*;
 
+/**
+ * Used to parse some simple file formats.
+ * @author Adam Scarr
+ * @since r50
+ */
 public class FileParser {
-    Grammar grammar;
+    private Grammar grammar;
 
+    /**
+     * Sets up a new FileParser for grammar.
+     * @param grammar The grammar to use.
+     */
     public FileParser(Grammar grammar) {
         this.grammar = grammar;
     }
 
-    // This is designed to run a file that will create a grammar AND test its validity to speed up
-    // development times by detecting breakages early.
-    // Reads a 'test' file: a file that contains a number of lines each representing an action to manipulate the grammar.
-	// a: - adds a line
-	// v: - checks that a line validates correctly
-	// i: - checks that a line does not calculateSentanceValidity correctly.
+    /**
+     * This is designed to run a file that will create grammar and tests its vailidity agains some predefined rules.
+     *
+     * The test file format is very simple, each line starts with a letter followed by a colon.
+     * <ul>
+     * <li><b>a:</b> adds a line</li>
+     * <li><b>v:</b> validates a line</li>
+     * <li><b>i:</b> invalidates a line</li>
+     * </ul>
+     * If any of of validate rules fail to vailidate or any of the invalidate rules are valid
+     * it will display an error showing which line and sentance.
+     * @param filename The file to parse
+     * @return true if the file vaildated correctly otherwise false.
+     */
 	public boolean testFile(String filename) {
 		boolean valid = true;
 		try {
@@ -75,9 +92,12 @@ public class FileParser {
 		return valid;
 	}
 
-    // Reads a text file and passes each line into parse, building the grammar.
-    // Unlike testFile it will not do any tests, its really just a quick way to build a grammar.
-	// Lines beginning with # are ignored.
+    /**
+     * Reans in a simple file with sentances seperated by newlines, and builds the grammar.
+     *
+     * A hash(#) at the beginning of a line means that line will not be parsed.
+     * @param filename
+     */
 	public void parseFile(String filename) {
 		try {
 			BufferedReader trainingSet = new BufferedReader(new FileReader(new File(filename)));

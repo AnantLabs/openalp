@@ -25,27 +25,33 @@
 package net.openalp.core;
 
 import java.util.LinkedList;
-
 import net.openalp.graph.Edge;
 import net.openalp.graph.Graph;
 import net.openalp.graph.Node;
 import net.openalp.graph.NodeFilter;
 
+/**
+ * The heart of OpenALP. The grammar wraps the graph and provides functions for adding and checking grammar.
+ */
 public class Grammar {
 	private Node start;
 	private Graph graph;
     private Tokenizer tokenizer;
 	private int totalSentences;
 
-	//----------------------------------------
-	// Constructors
-	//----------------------------------------
+    /**
+     * Constructor
+     * @param lexicon The lexicon that will form the source of all words used in the grammar.
+     */
 	public Grammar(LexiconDAO lexicon) {
 		graph = new Graph();
         tokenizer = new Tokenizer(lexicon);
         clear();
 	}
 
+    /**
+     * Removes all nodes from the graph and resets its internal counters.
+     */
     public void clear() {
         graph.lockNodesRW();
         graph.clear();
@@ -55,30 +61,40 @@ public class Grammar {
         graph.unlockNodesRW();
 	}
 
-	//----------------------------------------
-	// Simple getters
-	//----------------------------------------
+    /**
+     * Getter
+     * @return Returns the special 'start' token. All sentances start here.
+     */
 	public Node getStart() {
 		return start;
 	}
 
+    /**
+     * Getter
+     * @return The graph that holdes the information about the structure of the grammar.
+     */
 	public Graph getGraph() {
 		return graph;
 	}
 
+    /**
+     * Getter
+     * @return The number of sentances parsed.
+     */
 	public int getTotalSentences(){
 		return totalSentences;
 	}
 
-	//----------------------------------------
-	// Non mutating logic
-	//----------------------------------------
-	// Checks if a given set of tokens is valid (there is a path from start to end.
-	public float validateSentance(Sentance input) {
+    /**
+     * Checks if a sentance has a valid path from start.
+     * @param sentance The sentance to check.
+     * @return the 'validity' of a sentance.
+     */
+	public float validateSentance(Sentance sentance) {
         graph.lockNodesRO();
         // TODO: Ask Dimitry about this, dosent seem right to need to create a new list just so
         //       Java knows that all elements implement a given interface.
-        LinkedList<NodeFilter> filterList = new LinkedList<NodeFilter>(input);
+        LinkedList<NodeFilter> filterList = new LinkedList<NodeFilter>(sentance);
         LinkedList<Node> path = start.getMatchedPath(filterList);
 
         // First check the path actually made it to the end...
@@ -124,34 +140,38 @@ public class Grammar {
         return best;
     }
 
+    /**
+     * Calculates the validity of a sentance.
+     * @param sentance The sentance to validate
+     * @return the validity of the sentance.
+     */
 	public float calculateSentanceValidity(String sentance) {
 		return validateSentances(tokenizer.tokenize(sentance.toLowerCase()));
 	}
 
-	//----------------------------------------
-	// Mutators
-	//----------------------------------------
+    /**
+     * Parses a sentance, adding it to the grammar if it does not exist.
+     * @param sentance  The sentance to parse.
+     * @return true if the sentance is already valid, false if new paths were created.
+     */
 
-	// Returns true if given sentance is valid.
-	// Returns false if its not, and adds it to the grammar.
-	public boolean parse(String s) {
-
-		LinkedList<Sentance> sentances = tokenizer.tokenize(s.toLowerCase());
+	public boolean parse(String sentance) {
+		LinkedList<Sentance> sentances = tokenizer.tokenize(sentance.toLowerCase());
 
         // Check if there are any valid sentances that match this structure.
         boolean exists = false;
         Sentance bestSentance = null;
         float bestValidity = Float.NEGATIVE_INFINITY;
-        for(Sentance sentance: sentances) {
-            float validity = validateSentance(sentance);
+        for(Sentance tokenizedSentance: sentances) {
+            float validity = validateSentance(tokenizedSentance);
             if(validity > bestValidity) {
                 bestValidity = validity;
-                bestSentance = sentance;
+                bestSentance = tokenizedSentance;
             }
 
             if(validity > 0.0) {
                 exists = true;
-                addPath(sentance);
+                addPath(tokenizedSentance);
             }
         }
 
@@ -164,10 +184,13 @@ public class Grammar {
         return exists;
     }
 
-    // Creates add the given tokens to the grammar, creating a few nodes as possible.
-    // It works by matching as many tokens as possible then when it finds a non-matching
-    // token it creates the shortest chain possible to re-attach to the graph.
-    public boolean addPath(Sentance tokens) {
+    /**
+     * Adds the given tokens to the grammar, creating as few nodes as possible.
+     * It works by matching as many tokens as possible then when it finds a non-matching
+     * token it creates the shortest chain possible to re-attach to the graph.
+     * @param tokens    Tokenized sentance to add.
+     */
+    public void addPath(Sentance tokens) {
         graph.lockNodesRW();
         totalSentences++;
         Node pathStart = start;
@@ -203,29 +226,11 @@ public class Grammar {
             }
 
             chain = new Chain(this, tokens, fork);
-
-            // Connect the chain to the graph.
-
-            if(chain.getMergePoint() != null) {
-                if(chain.size() == 0) {
-                    graph.connect(new GrammarEdge(fork, chain.getMergePoint(), this));
-                } else {
-                    graph.connect(new GrammarEdge(fork, chain.getFirst(), this));
-                    graph.connect(new GrammarEdge(chain.getLast(), chain.getMergePoint(), this));
-                }
-
-                pathStart = chain.getMergePoint();
-            } else {
-                if(chain.size() > 0) {
-                    graph.connect(new GrammarEdge(fork, chain.getFirst(), this));
-                    pathStart = chain.getLast();
-                }
-            }
+            lastNode = chain.mergeInto(this);
 
         } while(tokens.size() > 0);
 
         graph.unlockNodesRW();
-        return true;
     }
         
 }
