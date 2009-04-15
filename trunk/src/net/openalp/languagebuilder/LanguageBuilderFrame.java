@@ -72,4 +72,8 @@ public class LanguageBuilderFrame extends JFrame {
         
         console.setDefaultListener(new Check(grammar));
     }
+
+    public Grammar getGrammar() {
+        return grammar;
+    }
 }
