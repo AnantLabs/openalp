@@ -22,7 +22,6 @@ package net.openalp.oo.plugin;
  *
  * @author Marcin Miłkowski
  */
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -53,7 +52,6 @@ import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import net.openalp.core.FileParser;
 import net.openalp.core.Grammar;
-import net.openalp.core.LexiconDAO;
 import net.openalp.languagebuilder.LanguageBuilderFrame;
 
 public class Plugin extends WeakBase implements XJobExecutor, XServiceDisplayName, XServiceInfo, XProofreader, XLinguServiceEventBroadcaster {
