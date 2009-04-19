@@ -53,7 +53,7 @@ public class Chain extends LinkedList<Node> {
         for(Token token: sentance) {
             // If a conjunction appears in a chain then it can only rejoin the grammar
             // when a sentance terminator appears.
-            if(token.getType().equals("CONJ") || token.isTerminator()) {
+            if(token.getType().equals("CONJ") || token.getType().equals("COMMA") || token.isTerminator()) {
                 diverge = true;
             }
 
