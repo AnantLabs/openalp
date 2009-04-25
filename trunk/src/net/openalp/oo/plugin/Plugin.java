@@ -22,6 +22,8 @@ package net.openalp.oo.plugin;
  *
  * @author Marcin Miłkowski
  */
+import com.sun.star.lang.IllegalArgumentException;
+import com.sun.star.linguistic2.XSpellAlternatives;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -41,23 +43,24 @@ import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
-import com.sun.star.linguistic2.ProofreadingResult;
-import com.sun.star.linguistic2.SingleProofreadingError;
-import com.sun.star.linguistic2.XLinguServiceEventBroadcaster;
-import com.sun.star.linguistic2.XLinguServiceEventListener;
-import com.sun.star.linguistic2.XProofreader;
+import com.sun.star.linguistic2.*;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import net.openalp.core.FileParser;
 import net.openalp.core.Grammar;
+import net.openalp.core.LexiconDAO;
 import net.openalp.languagebuilder.LanguageBuilderFrame;
 
-public class Plugin extends WeakBase implements XJobExecutor, XServiceDisplayName, XServiceInfo, XProofreader, XLinguServiceEventBroadcaster {
+
+public class Plugin extends WeakBase implements XJobExecutor, XServiceDisplayName, XServiceInfo, XProofreader, XLinguServiceEventBroadcaster, XSpellChecker {
     private List<XLinguServiceEventListener> xEventListeners;
     private Grammar grammar;
-    private static final String[] SERVICE_NAMES = {"com.sun.star.linguistic2.Proofreader", "net.openalp.oo.plugin.Plugin"};
+    private LexiconDAO lexicon;
+    private static final String[] SERVICE_NAMES = {"com.sun.star.linguistic2.Proofreader", 
+                                                   "com.sun.star.linguistic2.SpellChecker",
+                                                   "net.openalp.oo.plugin.Plugin"};
     private XComponentContext xContext;
     private Locale[] locales = {new Locale("en", "GB", ""),
         new Locale("en", "US", ""),
@@ -66,11 +69,14 @@ public class Plugin extends WeakBase implements XJobExecutor, XServiceDisplayNam
 
     public Plugin(final XComponentContext xCompContext) {
         try {
-            LanguageBuilderFrame lb = new LanguageBuilderFrame();
-            FileParser parser = new FileParser(lb.getGrammar());
+            //LanguageBuilderFrame lb = new LanguageBuilderFrame();
+            //FileParser parser = new FileParser(lb.getGrammar());
+            //grammar = lb.getGrammar();
+            lexicon = new LexiconDAO();
+            grammar = new Grammar(lexicon);
+            FileParser parser = new FileParser(grammar);
             parser.parseFile("data/conjunctions.txt");
             parser.parseFile("data/trainingset.txt");
-            grammar = lb.getGrammar();
 
             changeContext(xCompContext);
             xEventListeners = new ArrayList<XLinguServiceEventListener>();
@@ -165,10 +171,10 @@ public class Plugin extends WeakBase implements XJobExecutor, XServiceDisplayNam
     /**
      * LT does not support spell-checking, so we return false.
      *
-     * @return false
+     * @return true
      */
     public final boolean isSpellChecker() {
-        return false;
+        return true;
     }
 
     /**
@@ -334,6 +340,47 @@ public class Plugin extends WeakBase implements XJobExecutor, XServiceDisplayNam
     // throw new RuntimeException(e);
     }
 
+    public boolean isValid(String word, Locale locale, PropertyValue[] properties) {
+        return lexicon.get(word) != null;
+    }
+
+    public XSpellAlternatives spell(String word, Locale locale, PropertyValue[] arg2) {
+        return new SpellingAlternatives(word, locale, SpellFailure.SPELLING_ERROR);
+    }
+
+    private class SpellingAlternatives implements XSpellAlternatives {
+        private String word;
+        private Locale locale;
+        private short failure;
+
+        public SpellingAlternatives(String word, Locale locale, short failure) {
+            this.word = word;
+            this.locale = locale;
+            this.failure = failure;
+        }
+
+        public String getWord() {
+            return word;
+        }
+
+        public Locale getLocale() {
+            return locale;
+        }
+
+        public short getFailureType() {
+            return failure;
+        }
+
+        public short getAlternativesCount() {
+            return 0;
+        }
+
+        public String[] getAlternatives() {
+            return new String[0];
+        }
+
+    }
+
     private class AboutDialogThread extends Thread {
 
         private ResourceBundle messages;
@@ -366,7 +413,6 @@ public class Plugin extends WeakBase implements XJobExecutor, XServiceDisplayNam
         return "OpenALP Proofreader";
     }
 }
-
 /**
  * A simple comparator for sorting errors by their position.
  *
