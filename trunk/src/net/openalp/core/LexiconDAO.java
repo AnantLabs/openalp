@@ -42,7 +42,7 @@ public class LexiconDAO {
 
 			// and connect
 			db = DriverManager.getConnection(databaseURL);
-			insert = db.prepareStatement("INSERT INTO lexicon values (?, ?, ?, ?, ?, ?, ?, ?);");
+			insert = db.prepareStatement("INSERT INTO lexicon (word, type, firstPerson, secondPerson, thirdPerson, pastTense, presentTense, futureTense) values (?, ?, ?, ?, ?, ?, ?, ?);");
 			delete = db.prepareStatement("DELETE FROM lexicon WHERE word=?;");
 //				select = db.prepareStatement("SELECT * FROM lexicon WHERE word=?;");
 
