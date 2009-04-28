@@ -8,6 +8,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="sqlLite" level="project" />
+    <orderEntry type="library" name="openALP" level="project" />
   </component>
 </module>
 

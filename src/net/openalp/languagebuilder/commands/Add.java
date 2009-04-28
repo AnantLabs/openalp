@@ -41,8 +41,9 @@ public class Add implements CommandListener {
 
     public void runCommand(Console console, String[] argv, int argc) {
         StringBuilder sentance = new StringBuilder();
-
-        for(String word: argv) {
+        
+        for(int i = 1; i < argc; i++) {
+            String word = argv[i];
             sentance.append(word);
             sentance.append(' ');
         }
