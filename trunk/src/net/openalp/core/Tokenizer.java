@@ -70,13 +70,11 @@ public class Tokenizer {
 				if(w.getType().equals("UNDEF")) {
 					 System.out.println("Could not find '" + w.getValue() + "' in lexicon.");
 				}
-				if(word.charAt(word.length() - 1) == '.') {
-					sentance.add(lexicon.get(word.substring(0, word.length() - 1)));
-					sentance.add(new Token(".", "PERIOD", true, true, true, true, true, true));
-				} else if(word.charAt(word.length() - 1) == ',') {
-					sentance.add(lexicon.get(word.substring(0, word.length() - 1)));
-					sentance.add(new Token(",", "COMMA", true, true, true, true, true, true));
-				}
+
+                if(!lexicon.get(word.substring(0, word.length() - 1)).equals("UNDEF")) {
+                   sentance.add(w);
+                   sentance.add(lexicon.get(String.valueOf(last)));
+                }
 			} else {
 				sentance.add(w);
 			}
