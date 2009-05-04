@@ -48,15 +48,15 @@ public class Tokenizer {
      * @return  all possible variations of token lists that match the text.
      */
 
-    // todo: Need to implement methods here to deal with multiple tokens.
+
     public LinkedList<Sentance> tokenize(String line) {
 		String[] words = line.split(" ");
 		Sentance sentance = new Sentance();
 
 		for (String word : words) {
-			Token w = lexicon.get(word);
+			LinkedList<Token> w = lexicon.get(word);
 
-			if(w.getType().equals("UNDEF")) {
+			if(w.get(1).getType().equals("UNDEF")) {
 				// If we couldnt find the word perhaps it has a comma or period on the end?
 				// Search this word for periods or commas (usually at the end of a word not by themselves.
 				// todo: ownership on proper nouns ('s).
@@ -67,16 +67,16 @@ public class Tokenizer {
                     w = lexicon.get(word);
                 }
 
-				if(w.getType().equals("UNDEF")) {
-					 System.out.println("Could not find '" + w.getValue() + "' in lexicon.");
+				if(w.get(1).getType().equals("UNDEF")) {
+					 System.out.println("Could not find '" + w.get(1).getValue() + "' in lexicon.");
 				}
 
                 if(!lexicon.get(word.substring(0, word.length() - 1)).equals("UNDEF")) {
-                   sentance.add(w);
+                   sentance.add(w.get(1));
                    sentance.add(lexicon.get(String.valueOf(last)));
                 }
 			} else {
-				sentance.add(w);
+				sentance.add(w.get(1));
 			}
 		}
 

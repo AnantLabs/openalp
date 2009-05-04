@@ -25,6 +25,7 @@
 package net.openalp.core;
 
 import java.sql.*;
+import java.util.LinkedList;
 
 public class LexiconDAO {
 	private static final String databaseURL = "jdbc:sqlite:data/lexicon.db";
@@ -120,22 +121,27 @@ public class LexiconDAO {
      */
 
     //todo: Return a list of tokens instead, returning all the matching tokens and not just the first.
-	public Token get(String word) {
+	public LinkedList<Token> get(String word) {
 		Statement s;
 		ResultSet rs;
 		try {
 			s = db.createStatement();
 
 			rs = s.executeQuery("SELECT * FROM lexicon WHERE word = '" + word + "';");
-			Token w = new Token(word);
-			if(rs.next()) {
-				w = new Token(word, rs.getString("type"), rs.getBoolean("firstPerson"), rs.getBoolean("secondPerson"), rs.getBoolean("thirdPerson"),
-																		rs.getBoolean("pastTense"), rs.getBoolean("presentTense"), rs.getBoolean("futureTense"));
+
+            LinkedList<Token> TokenList = new LinkedList<Token>();
+
+            Token w = new Token(word);
+
+			for(int y = 1; rs.next(); y++) {
+                w = new Token(word, rs.getString("type"), rs.getBoolean("firstPerson"), rs.getBoolean("secondPerson"), rs.getBoolean("thirdPerson"),
+					rs.getBoolean("pastTense"), rs.getBoolean("presentTense"), rs.getBoolean("futureTense"));
 				//System.err.println("LexiconDAO loaded: " + w);
+                TokenList.add(y, w);
 			}
 			rs.close();
 
-			return w;
+			return TokenList;
 		} catch(SQLException e) {
 			System.err.println("Error retreiving '" + word + "' from lexicon: " + e.getMessage());
 		}
