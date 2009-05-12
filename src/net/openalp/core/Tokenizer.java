@@ -1,6 +1,7 @@
 package net.openalp.core;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This file is part of OpenALP.
@@ -47,41 +48,55 @@ public class Tokenizer {
      * @param line  The text to convert.
      * @return  all possible variations of token lists that match the text.
      */
-
-
     public LinkedList<Sentance> tokenize(String line) {
-		String[] words = line.split(" ");
+		List<String> words = split(line);
 		Sentance sentance = new Sentance();
 
 		for (String word : words) {
-			LinkedList<Token> w = lexicon.get(word);
+            LinkedList<Token> tokens = lexicon.get(word);
 
-			if(w.get(1).getType().equals("UNDEF")) {
-				// If we couldnt find the word perhaps it has a comma or period on the end?
-				// Search this word for periods or commas (usually at the end of a word not by themselves.
-				// todo: ownership on proper nouns ('s).
-                char last = word.charAt(word.length() - 1);
-                if(last == ',' || last == '.') {
-                    w = lexicon.get(word.substring(0, word.length() - 1));
-                } else {
-                    w = lexicon.get(word);
-                }
-
-				if(w.get(1).getType().equals("UNDEF")) {
-					 System.out.println("Could not find '" + w.get(1).getValue() + "' in lexicon.");
-				}
-
-                if(!lexicon.get(word.substring(0, word.length() - 1)).equals("UNDEF")) {
-                   sentance.add(w.get(1));
-                   sentance.add(lexicon.get(String.valueOf(last)));
-                }
-			} else {
-				sentance.add(w.get(1));
+			if(tokens.size() == 0) {
+				System.out.println("Could not find '" + word + "' in lexicon.");
+                sentance.add(new Token("UNDEF"));
+                continue;
 			}
+
+            sentance.add(tokens.get(0));
 		}
 
         LinkedList<Sentance> sentances = new LinkedList<Sentance>();
         sentances.add(sentance);
 		return sentances;
 	}
+
+    private List<String> split(String sentance) {
+        LinkedList<String> chunks = new LinkedList<String>();
+        int cursor = 0;
+        int lastToken = 0;
+        while(cursor < sentance.length()) {
+            switch(sentance.charAt(cursor)) {
+                // Delimiters first.
+                case ' ':
+                    if(cursor > lastToken) chunks.add(sentance.substring(lastToken, cursor));
+                    lastToken = cursor + 1;
+                    break;
+
+                // Special characters that form tokens automatically.
+                case '.':
+                case ',':
+                case '"':
+                case '(':
+                case ')':
+                case '\'':
+                    if(cursor > lastToken) chunks.add(sentance.substring(lastToken, cursor));
+                    lastToken = cursor + 1;
+                    chunks.add(Character.toString(sentance.charAt(cursor)));
+                    break;
+            }
+            cursor++;
+        }
+
+        return chunks;
+    }
+
 }
