@@ -119,8 +119,6 @@ public class LexiconDAO {
      * @param word  The word you want the token for.
      * @return  The token or UNDEF, if the word could not be found.
      */
-
-    //todo: Return a list of tokens instead, returning all the matching tokens and not just the first.
 	public LinkedList<Token> get(String word) {
 		Statement s;
 		ResultSet rs;
@@ -129,19 +127,19 @@ public class LexiconDAO {
 
 			rs = s.executeQuery("SELECT * FROM lexicon WHERE word = '" + word + "';");
 
-            LinkedList<Token> TokenList = new LinkedList<Token>();
+            LinkedList<Token> tokenList = new LinkedList<Token>();
 
-            Token w = new Token(word);
+            Token w;
 
-			for(int y = 1; rs.next(); y++) {
+			while(rs.next()) {
                 w = new Token(word, rs.getString("type"), rs.getBoolean("firstPerson"), rs.getBoolean("secondPerson"), rs.getBoolean("thirdPerson"),
 					rs.getBoolean("pastTense"), rs.getBoolean("presentTense"), rs.getBoolean("futureTense"));
 				//System.err.println("LexiconDAO loaded: " + w);
-                TokenList.add(y, w);
+                tokenList.add(w);
 			}
 			rs.close();
 
-			return TokenList;
+			return tokenList;
 		} catch(SQLException e) {
 			System.err.println("Error retreiving '" + word + "' from lexicon: " + e.getMessage());
 		}
