@@ -1,12 +1,18 @@
 package net.openalp.editor;
 
+import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 /**
  *
@@ -14,19 +20,28 @@ import javax.swing.text.BadLocationException;
  */
 
 public class TextEditor extends JScrollPane implements DocumentListener {
-    JTextArea textArea;
+    private JTextPane textPane;
+    private StyledDocument doc;
     private char[] sentanceDelimiters = {'.', '!', '?'};
+    private Style badGrammar;
+    private Style badSpelling;
 
     public TextEditor() {
         setMinimumSize(new Dimension(640, 480));
         setPreferredSize(new Dimension(800,600));
+        textPane = new JTextPane();
+        doc = textPane.getStyledDocument();
 
-        textArea = new JTextArea();
-        textArea.setWrapStyleWord(true);
-        textArea.setLineWrap(true);
-        textArea.getDocument().addDocumentListener(this);
-        
-        setViewportView(textArea);
+        badGrammar = doc.addStyle("BadGrammar", null);
+        StyleConstants.setForeground(badGrammar, Color.GREEN);
+
+        badSpelling = doc.addStyle("BadSpelling", null);
+        StyleConstants.setBackground(badSpelling, Color.RED);
+
+        textPane.getDocument().addDocumentListener(this);
+
+
+        setViewportView(textPane);
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
     }
 
@@ -49,13 +64,13 @@ public class TextEditor extends JScrollPane implements DocumentListener {
         int end = charPos;
 
         try {
-            while (start >= 0 && !isSentanceDelimiter(textArea.getDocument().getText(start - 1, 1).charAt(0))) {
+            while (start >= 0 && !isSentanceDelimiter(doc.getText(start - 1, 1).charAt(0))) {
                 start--;
             }
         } catch (BadLocationException ignore) {}
 
         try {
-            while (!isSentanceDelimiter(textArea.getDocument().getText(end, 1).charAt(0))) {
+            while (!isSentanceDelimiter(doc.getText(end + 1, 1).charAt(0))) {
                 end++;
             }
         } catch (BadLocationException ignore) {}
@@ -66,12 +81,21 @@ public class TextEditor extends JScrollPane implements DocumentListener {
     }
 
     public void insertUpdate(DocumentEvent e) {
-        SentancePosition sp = findSentancePosition(e.getOffset());
-        try {
-            System.out.println(textArea.getDocument().getText(sp.start, sp.getLength()));
-        } catch (BadLocationException ex) {
-            Logger.getLogger(TextEditor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        final SentancePosition sp = findSentancePosition(e.getOffset());
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    doc.setCharacterAttributes(sp.start, sp.getLength(), badGrammar, true);
+
+                    String sentance = doc.getText(sp.start, sp.getLength());
+                    System.out.println(sentance);
+                } catch (BadLocationException ex) {
+                    Logger.getLogger(TextEditor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+
     }
 
     public void removeUpdate(DocumentEvent e) {
