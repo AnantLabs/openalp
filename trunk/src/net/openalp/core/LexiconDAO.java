@@ -33,7 +33,7 @@ public class LexiconDAO {
 	private PreparedStatement insert;
 	private PreparedStatement delete;
 
-    /**
+     /**
      * Class constructor. Creates the database connection. If the database connection
      * fails it will exit the program.
      */
@@ -57,7 +57,7 @@ public class LexiconDAO {
 		}
 	}
 
-    /**
+     /**
      * Adds a new token to the lexicons backing store.
      * @param t The token to add.
      */
