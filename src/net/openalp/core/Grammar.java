@@ -38,6 +38,10 @@ public class Grammar {
 	private Graph graph;
     private Tokenizer tokenizer;
 	private int totalSentences;
+    private LexiconDAO lexicon;
+
+
+    public Grammar() { };
 
     /**
      * Constructor
@@ -45,7 +49,7 @@ public class Grammar {
      */
 	public Grammar(LexiconDAO lexicon) {
 		graph = new Graph();
-        tokenizer = new Tokenizer(lexicon);
+        tokenizer = new Tokenizer(this.lexicon = lexicon);
         clear();
 	}
 
@@ -86,6 +90,38 @@ public class Grammar {
 	}
 
     /**
+     * Getter
+     * @return The Lexicon being used.
+     */
+    public LexiconDAO getLexicon() {
+        return lexicon;
+    }
+
+    public Tokenizer getTokenizer() {
+        return tokenizer;
+    }
+
+    public void setStart(Node start) {
+        this.start = start;
+    }
+
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
+
+    public void setTokenizer(Tokenizer tokenizer) {
+        this.tokenizer = tokenizer;
+    }
+
+    public void setTotalSentences(int totalSentences) {
+        this.totalSentences = totalSentences;
+    }
+
+    public void setLexicon(LexiconDAO lexicon) {
+        this.lexicon = lexicon;
+    }
+
+    /**
      * Checks if a sentance has a valid path from start.
      * @param sentance The sentance to check.
      * @return the 'validity' of a sentance.
@@ -93,7 +129,7 @@ public class Grammar {
 	public float validateSentance(Sentance sentance) {
         graph.lockNodesRO();
         // TODO: Ask Dimitry about this, dosent seem right to need to create a new list just so
-        //       Java knows that all elements implement a given interface.
+        //Java knows that all elements implement a given interface.
         LinkedList<NodeFilter> filterList = new LinkedList<NodeFilter>(sentance);
         LinkedList<Node> path = start.getMatchedPath(filterList);
 

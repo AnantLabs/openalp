@@ -28,6 +28,7 @@ package net.openalp.graph;
 import java.util.LinkedList;
 import java.util.Random;
 
+
 public class Graph {
 	private LinkedList<Node> nodes = new LinkedList<Node>();
 	private static final Random rand = new Random();
@@ -36,6 +37,8 @@ public class Graph {
 	private int usn;
 	private boolean nodesWriteLocked = false;
 	private int readLocks = 0;
+    
+    public Graph() {};
 
 	//----------------------------------------
 	// Simple getters
@@ -72,7 +75,31 @@ public class Graph {
 		return delta;
 	}
 
-	//----------------------------------------
+    public void setMinX(float minX) {
+        this.minX = minX;
+    }
+
+    public void setMaxX(float maxX) {
+        this.maxX = maxX;
+    }
+
+    public void setMinY(float minY) {
+        this.minY = minY;
+    }
+
+    public void setMaxY(float maxY) {
+        this.maxY = maxY;
+    }
+
+    public void setDelta(float delta) {
+        this.delta = delta;
+    }
+
+    public void setNodes(LinkedList<Node> nodes) {
+        this.nodes = nodes;
+    }
+
+    //----------------------------------------
 	// Non mutating logic
 	//----------------------------------------
 

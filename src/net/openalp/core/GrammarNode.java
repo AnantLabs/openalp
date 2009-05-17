@@ -38,6 +38,7 @@ public class GrammarNode extends Node {
 	//----------------------------------------
 	// Constructors
 	//----------------------------------------
+    public GrammarNode() { };
 
 	public GrammarNode(Token t) {
 		type = t.getType();
@@ -69,11 +70,62 @@ public class GrammarNode extends Node {
 		return type;
 	}
 
+    public boolean isFirstPerson() {
+        return firstPerson;
+    }
+
+    public boolean isSecondPerson() {
+        return secondPerson;
+    }
+
+    public boolean isThirdPerson() {
+        return thirdPerson;
+    }
+
+    public boolean isPastTense() {
+        return pastTense;
+    }
+
+    public boolean isPresentTense() {
+        return presentTense;
+    }
+
+    public boolean isFutureTense() {
+        return futureTense;
+    }
+
     public String toString() {
         return type;
     }
 
+    //----------------------------------------
+	// Simple setters
 	//----------------------------------------
+
+    public void setFirstPerson(boolean firstPerson) {
+        this.firstPerson = firstPerson;
+    }
+
+    public void setSecondPerson(boolean secondPerson) {
+        this.secondPerson = secondPerson;
+    }
+
+    public void setThirdPerson(boolean thirdPerson) {
+        this.thirdPerson = thirdPerson;
+    }
+
+    public void setPastTense(boolean pastTense) {
+        this.pastTense = pastTense;
+    }
+
+    public void setPresentTense(boolean presentTense) {
+        this.presentTense = presentTense;
+    }
+
+    public void setFutureTense(boolean futureTense) {
+        this.futureTense = futureTense;
+    }
+    //----------------------------------------
 	// Non mutating logic
 	//----------------------------------------
 

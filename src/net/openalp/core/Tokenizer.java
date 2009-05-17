@@ -28,12 +28,21 @@ import java.util.List;
 public class Tokenizer {
     private LexiconDAO lexicon;
 
+    public  Tokenizer() { };
     /**
      * Class constructor.
      * @param lex The lexicon to pull words from.
      */
     public Tokenizer(LexiconDAO lex) {
         lexicon = lex;
+    }
+
+    public LexiconDAO getLexicon() {
+        return lexicon;
+    }
+
+    public void setLexicon(LexiconDAO lexicon) {
+        this.lexicon = lexicon;
     }
 
     /**
