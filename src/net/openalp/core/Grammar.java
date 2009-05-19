@@ -126,7 +126,7 @@ public class Grammar {
      * @param sentance The sentance to check.
      * @return the 'validity' of a sentance.
      */
-	public float validateSentance(Sentance sentance) {
+	public float validateSentance(Sentence sentance) {
         graph.lockNodesRO();
         // TODO: Ask Dimitry about this, dosent seem right to need to create a new list just so
         //Java knows that all elements implement a given interface.
@@ -163,10 +163,10 @@ public class Grammar {
      * @param sentances The tokenized sentances.
      * @return  The validity of the most-valid sentance.
      */
-    public float validateSentances(LinkedList<Sentance> sentances) {
+    public float validateSentances(LinkedList<Sentence> sentances) {
         float best = Float.NEGATIVE_INFINITY;
 
-        for(Sentance sentance: sentances) {
+        for(Sentence sentance: sentances) {
             float validity = validateSentance(sentance);
             if(validity > best) {
                 best = validity;
@@ -192,13 +192,13 @@ public class Grammar {
      */
 
 	public boolean parse(String sentance) {
-		LinkedList<Sentance> sentances = tokenizer.tokenize(sentance.toLowerCase());
+		LinkedList<Sentence> sentances = tokenizer.tokenize(sentance.toLowerCase());
 
         // Check if there are any valid sentances that match this structure.
         boolean exists = false;
-        Sentance bestSentance = null;
+        Sentence bestSentance = null;
         float bestValidity = Float.NEGATIVE_INFINITY;
-        for(Sentance tokenizedSentance: sentances) {
+        for(Sentence tokenizedSentance: sentances) {
             float validity = validateSentance(tokenizedSentance);
             if(validity > bestValidity) {
                 bestValidity = validity;
@@ -226,7 +226,7 @@ public class Grammar {
      * token it creates the shortest chain possible to re-attach to the graph.
      * @param tokens    Tokenized sentance to add.
      */
-    public void addPath(Sentance tokens) {
+    public void addPath(Sentence tokens) {
         graph.lockNodesRW();
         totalSentences++;
         Node pathStart = start;

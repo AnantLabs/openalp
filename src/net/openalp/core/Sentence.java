@@ -24,6 +24,6 @@ import java.util.LinkedList;
  * @author Adam Scarr
  * @since r42
  */
-public class Sentance extends LinkedList<Token> {
+public class Sentence extends LinkedList<Token> {
 
 }

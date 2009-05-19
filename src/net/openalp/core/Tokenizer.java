@@ -57,9 +57,12 @@ public class Tokenizer {
      * @param line  The text to convert.
      * @return  all possible variations of token lists that match the text.
      */
-    public LinkedList<Sentance> tokenize(String line) {
-		List<String> words = split(line);
-		Sentance sentance = new Sentance();
+    public LinkedList<Sentence> tokenize(String line) {
+		return tokenize(split(line));
+	}
+
+    public LinkedList<Sentence> tokenize(List<String> words) {
+        Sentence sentance = new Sentence();
 
 		for (String word : words) {
             LinkedList<Token> tokens = lexicon.get(word);
@@ -73,12 +76,12 @@ public class Tokenizer {
             sentance.add(tokens.get(0));
 		}
 
-        LinkedList<Sentance> sentances = new LinkedList<Sentance>();
+        LinkedList<Sentence> sentances = new LinkedList<Sentence>();
         sentances.add(sentance);
 		return sentances;
-	}
+    }
 
-    private List<String> split(String sentance) {
+    public List<String> split(String sentance) {
         LinkedList<String> chunks = new LinkedList<String>();
         int cursor = 0;
         int lastToken = 0;
