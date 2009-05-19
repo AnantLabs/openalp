@@ -44,7 +44,7 @@ public class Chain extends LinkedList<Node> {
      * @param sentance The partially parsed sentance.
      * @param fork The point that the sentance broke from the graph.
      */
-    public Chain(Grammar grammar, Sentance sentance, Node fork) {
+    public Chain(Grammar grammar, Sentence sentance, Node fork) {
         this.fork = fork;
         Node lastNode = null;
         Node node;

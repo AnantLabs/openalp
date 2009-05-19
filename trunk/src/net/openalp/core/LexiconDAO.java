@@ -117,7 +117,7 @@ public class LexiconDAO {
     /**
      * Returns all instances of a word.
      * @param word  The word you want the token for.
-     * @return  The token or UNDEF, if the word could not be found.
+     * @return  The token or null, if the word could not be found.
      */
 	public LinkedList<Token> get(String word) {
 		Statement s;
