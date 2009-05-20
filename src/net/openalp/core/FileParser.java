@@ -68,14 +68,14 @@ public class FileParser {
 						break;
 
 					case 'v':
-						if(grammar.calculateSentanceValidity(line.substring(2)) == 0) {
+						if(!grammar.calculateSentanceValidity(line.substring(2)).isValid()) {
 							System.out.println("Error validating: " + line.substring(2));
 							valid = false;
 						}
 						break;
 
 					case 'i':
-						if(grammar.calculateSentanceValidity(line.substring(2)) > 0) {
+						if(grammar.calculateSentanceValidity(line.substring(2)).isValid()) {
 							System.out.println("Error invalidating: " + line.substring(2));
 							valid = false;
 						}
