@@ -28,9 +28,10 @@
 
 package net.openalp.graph;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class Node {
@@ -143,7 +144,7 @@ public class Node {
 
     // Returns a path through where every node matches the filter for that step.
     // If we cannot find a complete path, the longest partial match will be returned.
-    public LinkedList<Node> getMatchedPath(LinkedList<NodeFilter> filter) {
+    public List<Node> getMatchedPath(List<NodeFilter> filter) {
         Queue<LinkedList<Node>> searchQueue = new ConcurrentLinkedQueue<LinkedList<Node>>();
         LinkedList<Node> longestpath = new LinkedList<Node>();
 

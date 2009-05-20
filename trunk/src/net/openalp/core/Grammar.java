@@ -25,6 +25,7 @@
 package net.openalp.core;
 
 import java.util.LinkedList;
+import java.util.List;
 import net.openalp.graph.Edge;
 import net.openalp.graph.Graph;
 import net.openalp.graph.Node;
@@ -56,20 +57,18 @@ public class Grammar {
     /**
      * Removes all nodes from the graph and resets its internal counters.
      */
-    public void clear() {
-        graph.lockNodesRW();
+    public synchronized void clear() {
         graph.clear();
 		start = new GrammarNode(new Token("START", "START", false, false, false, false, false, false));
 		graph.addNode(start);
 		totalSentences = 0;
-        graph.unlockNodesRW();
 	}
 
     /**
      * Getter
      * @return Returns the special 'start' token. All sentances start here.
      */
-	public Node getStart() {
+	public synchronized Node getStart() {
 		return start;
 	}
 
@@ -85,7 +84,7 @@ public class Grammar {
      * Getter
      * @return The number of sentances parsed.
      */
-	public int getTotalSentences(){
+	public synchronized int getTotalSentences(){
 		return totalSentences;
 	}
 
@@ -126,16 +125,16 @@ public class Grammar {
      * @param sentance The sentance to check.
      * @return the 'validity' of a sentance.
      */
-	public float validateSentance(Sentence sentance) {
-        graph.lockNodesRO();
+	public ParseResult validateSentance(Sentence sentance) {
         // TODO: Ask Dimitry about this, dosent seem right to need to create a new list just so
         //Java knows that all elements implement a given interface.
-        LinkedList<NodeFilter> filterList = new LinkedList<NodeFilter>(sentance);
-        LinkedList<Node> path = start.getMatchedPath(filterList);
+        List<NodeFilter> filterList = new LinkedList<NodeFilter>(sentance);
+        List<Node> path = start.getMatchedPath(filterList);
+        ParseResult result = new ParseResult();
 
         // First check the path actually made it to the end...
         float validity = 1;
-        if(path.size() > 0 && path.getLast().isTerminal()) {
+        if(path.size() > 0 && path.get(path.size() - 1).isTerminal()) {
             // Walk the path and calculate the validity.
             Node last = null;
             for(Node node: path) {
@@ -152,37 +151,32 @@ public class Grammar {
         } else {
             validity = 0;
         }
+
+        result.setValidity(validity);
         
-        graph.unlockNodesRO();
-        return validity;
+        return result;
 	}
-
-    /**
-     * Calculates the validity of each tokenized sentance in the set
-     * and returns the validity of the best.
-     * @param sentances The tokenized sentances.
-     * @return  The validity of the most-valid sentance.
-     */
-    public float validateSentances(LinkedList<Sentence> sentances) {
-        float best = Float.NEGATIVE_INFINITY;
-
-        for(Sentence sentance: sentances) {
-            float validity = validateSentance(sentance);
-            if(validity > best) {
-                best = validity;
-            }
-        }
-
-        return best;
-    }
 
     /**
      * Calculates the validity of a sentance.
      * @param sentance The sentance to validate
      * @return the validity of the sentance.
      */
-	public float calculateSentanceValidity(String sentance) {
-		return validateSentances(tokenizer.tokenize(sentance.toLowerCase()));
+	public ParseResult calculateSentanceValidity(String inputSentence) {
+		TokenizingResult tokenizingResult = tokenizer.tokenize(inputSentence.toLowerCase());
+
+        ParseResult best = new ParseResult(Float.NEGATIVE_INFINITY);
+
+        for(Sentence sentance: tokenizingResult.getSentences()) {
+            ParseResult result = validateSentance(sentance);
+            if(result.getValidity() > best.getValidity()) {
+                best = result;
+            }
+        }
+
+        best.setTokenizingResult(tokenizingResult);
+
+        return best;
 	}
 
     /**
@@ -192,20 +186,22 @@ public class Grammar {
      */
 
 	public boolean parse(String sentance) {
-		LinkedList<Sentence> sentances = tokenizer.tokenize(sentance.toLowerCase());
+		TokenizingResult tokenizingResult = tokenizer.tokenize(sentance.toLowerCase());
 
         // Check if there are any valid sentances that match this structure.
         boolean exists = false;
         Sentence bestSentance = null;
-        float bestValidity = Float.NEGATIVE_INFINITY;
-        for(Sentence tokenizedSentance: sentances) {
-            float validity = validateSentance(tokenizedSentance);
-            if(validity > bestValidity) {
-                bestValidity = validity;
+        
+        ParseResult best = new ParseResult(Float.NEGATIVE_INFINITY);
+        
+        for(Sentence tokenizedSentance: tokenizingResult.getSentences()) {
+            ParseResult parseResult = validateSentance(tokenizedSentance);
+            if(parseResult.getValidity() > best.getValidity()) {
+                best = parseResult;
                 bestSentance = tokenizedSentance;
             }
 
-            if(validity > 0.0) {
+            if(parseResult.isValid()) {
                 exists = true;
                 addPath(tokenizedSentance);
             }
@@ -227,46 +223,46 @@ public class Grammar {
      * @param tokens    Tokenized sentance to add.
      */
     public void addPath(Sentence tokens) {
-        graph.lockNodesRW();
-        totalSentences++;
-        Node pathStart = start;
-        Node fork;
-        Node lastNode = null;
-        LinkedList<Node> matchedPath;
-        Chain chain;
+        synchronized(graph.getNodes()) {
+            totalSentences++;
+            Node pathStart = start;
+            Node fork;
+            Node lastNode = null;
+            List<Node> matchedPath;
+            Chain chain;
 
-        do {
-            // Consume as many tokens as we can.
-            if(tokens.getFirst().matches(pathStart)) {
-                tokens.removeFirst();
-            }
-            LinkedList<NodeFilter> filterList = new LinkedList<NodeFilter>(tokens);
-            matchedPath = pathStart.getMatchedPath(filterList);
-
-            // Remove them from the token list and strengthen the paths.
-            for(Node node: matchedPath) {
-                Edge edge = node.getEdgeTo(lastNode);
-                if(edge != null) {
-                    ((GrammarEdge)edge).incrementUsageCount();
-                }
-                if(node != start && tokens.size() > 0) {
+            do {
+                // Consume as many tokens as we can.
+                if(tokens.getFirst().matches(pathStart)) {
                     tokens.removeFirst();
                 }
-                lastNode = node;
-            }
+                LinkedList<NodeFilter> filterList = new LinkedList<NodeFilter>(tokens);
+                matchedPath = pathStart.getMatchedPath(filterList);
 
-            if(matchedPath.size() == 0) {
-                fork = pathStart;
-            } else {
-                fork = matchedPath.getLast();
-            }
+                // Remove them from the token list and strengthen the paths.
+                for(Node node: matchedPath) {
+                    Edge edge = node.getEdgeTo(lastNode);
+                    if(edge != null) {
+                        ((GrammarEdge)edge).incrementUsageCount();
+                    }
+                    if(node != start && tokens.size() > 0) {
+                        tokens.removeFirst();
+                    }
+                    lastNode = node;
+                }
 
-            chain = new Chain(this, tokens, fork);
-            lastNode = chain.mergeInto(this);
+                if(matchedPath.size() == 0) {
+                    fork = pathStart;
+                } else {
+                    fork = matchedPath.get(matchedPath.size() - 1);
+                }
 
-        } while(tokens.size() > 0);
+                chain = new Chain(this, tokens, fork);
+                lastNode = chain.mergeInto(this);
 
-        graph.unlockNodesRW();
+            } while(tokens.size() > 0);
+
+        }
     }
         
 }

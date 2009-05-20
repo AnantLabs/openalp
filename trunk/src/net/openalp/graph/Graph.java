@@ -35,8 +35,6 @@ public class Graph {
 	private float minX, maxX, minY, maxY;
 	private float delta;
 	private int usn;
-	private boolean nodesWriteLocked = false;
-	private int readLocks = 0;
     
     public Graph() {};
 
@@ -169,62 +167,28 @@ public class Graph {
 		usn++;
 	}
 
-	// Locks the nodes for exclusive write access, preventing any other threads from accessing them.
-	// If someone already has locked the nodes for read access wait until they are done.
-	public synchronized void lockNodesRW() {
-		while(readLocks > 0 || nodesWriteLocked) {
-			try {
-				Thread.sleep(5);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		nodesWriteLocked = true;
-	}
-
-	public void unlockNodesRW() {
-		nodesWriteLocked = false;
-	}
-
-	// Locks the nodes for read access, many threads can read at the same time, but if someone has the nodes
-	// locked for write access we must wait.
-	public synchronized void lockNodesRO() {
-		while(nodesWriteLocked) {
-			try {
-				Thread.sleep(5);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		readLocks++;
-	}
-
-	public void unlockNodesRO() {
-		readLocks--;
-	}
-
 	// Updates all the nodes position based on a force based algorithm.
 	public void updateNodes() {
-		lockNodesRO();
-		float maxX = Float.NEGATIVE_INFINITY;
-		float maxY = Float.NEGATIVE_INFINITY;
-		float minX = Float.POSITIVE_INFINITY;
-		float minY = Float.POSITIVE_INFINITY;
-		float delta = 0;
+		synchronized(nodes) {
+            float maxX = Float.NEGATIVE_INFINITY;
+            float maxY = Float.NEGATIVE_INFINITY;
+            float minX = Float.POSITIVE_INFINITY;
+            float minY = Float.POSITIVE_INFINITY;
+            float delta = 0;
 
-		for(Node n: nodes) {
-			delta += n.updatePosition(nodes);
-			if(n.getX() < minX) { minX = n.getX(); }
-			if(n.getX() > maxX) { maxX = n.getX(); }
-			if(n.getY() < minY) { minY = n.getY(); }
-			if(n.getY() > maxY) { maxY = n.getY(); }
-		}
+            for(Node n: nodes) {
+                delta += n.updatePosition(nodes);
+                if(n.getX() < minX) { minX = n.getX(); }
+                if(n.getX() > maxX) { maxX = n.getX(); }
+                if(n.getY() < minY) { minY = n.getY(); }
+                if(n.getY() > maxY) { maxY = n.getY(); }
+            }
 
-		this.maxX = maxX;
-		this.maxY = maxY;
-		this.minX = minX;
-		this.minY = minY;
-		this.delta = delta;
-		unlockNodesRO();
+            this.maxX = maxX;
+            this.maxY = maxY;
+            this.minX = minX;
+            this.minY = minY;
+            this.delta = delta;
+        }
 	}
 }

@@ -57,17 +57,20 @@ public class Tokenizer {
      * @param line  The text to convert.
      * @return  all possible variations of token lists that match the text.
      */
-    public LinkedList<Sentence> tokenize(String line) {
+    public TokenizingResult tokenize(String line) {
 		return tokenize(split(line));
 	}
 
-    public LinkedList<Sentence> tokenize(List<String> words) {
+    public TokenizingResult tokenize(List<Word> words) {
         Sentence sentance = new Sentence();
 
-		for (String word : words) {
-            LinkedList<Token> tokens = lexicon.get(word);
+        TokenizingResult result = new TokenizingResult();
+
+		for (Word word : words) {
+            LinkedList<Token> tokens = lexicon.get(word.getText());
 
 			if(tokens.size() == 0) {
+                result.addError(new TokenizingError(word.getStart(), word.getEnd()));
 				System.out.println("Could not find '" + word + "' in lexicon.");
                 sentance.add(new Token("UNDEF"));
                 continue;
@@ -78,18 +81,20 @@ public class Tokenizer {
 
         LinkedList<Sentence> sentances = new LinkedList<Sentence>();
         sentances.add(sentance);
-		return sentances;
+        result.setSentences(sentances);
+		return result;
     }
 
-    public List<String> split(String sentance) {
-        LinkedList<String> chunks = new LinkedList<String>();
+    public List<Word> split(String sentance) {
+        LinkedList<Word> words = new LinkedList<Word>();
         int cursor = 0;
         int lastToken = 0;
         while(cursor < sentance.length()) {
             switch(sentance.charAt(cursor)) {
                 // Delimiters first.
                 case ' ':
-                    if(cursor > lastToken) chunks.add(sentance.substring(lastToken, cursor));
+                    if(cursor > lastToken) words.add(new Word(sentance.substring(lastToken, cursor), lastToken, cursor));
+                    
                     lastToken = cursor + 1;
                     break;
 
@@ -100,15 +105,24 @@ public class Tokenizer {
                 case '(':
                 case ')':
                 case '\'':
-                    if(cursor > lastToken) chunks.add(sentance.substring(lastToken, cursor));
+                    if(cursor > lastToken) words.add(new Word(sentance.substring(lastToken, cursor), lastToken, cursor));
                     lastToken = cursor + 1;
-                    chunks.add(Character.toString(sentance.charAt(cursor)));
+                    words.add(new Word(Character.toString(sentance.charAt(cursor)), cursor, cursor + 1));
                     break;
             }
             cursor++;
         }
 
-        return chunks;
+        /*
+         * For debugging...
+        for(Word word: words) {
+            System.out.println("::" + word.getText() + "::");
+            System.out.println(" Start: " + word.getStart());
+            System.out.println(" End: " + word.getEnd());
+        }
+         */
+
+        return words;
     }
 
 }

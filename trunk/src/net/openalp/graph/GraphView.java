@@ -29,11 +29,16 @@
 
 package net.openalp.graph;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Polygon;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.List;
 
 public class GraphView extends JComponent implements Runnable, MouseMotionListener, MouseListener {
 	private Graph graph;
@@ -83,20 +88,20 @@ public class GraphView extends JComponent implements Runnable, MouseMotionListen
 	// We do some more suspiscious casting, but we dont really care about the data.
 	@SuppressWarnings({"unchecked"})
 	public Node getNodeAt(int x, int y) {
-		graph.lockNodesRO();
-		for(Node n: graph.getNodes()) {
-			float dx = Math.abs(screenX(n.getX()) - x);
-			float dy = Math.abs(screenY(n.getY()) - y);
-			float distance = (float)Math.sqrt(dx*dx + dy*dy);
+        List<Node> nodes = graph.getNodes();
+		synchronized(nodes) {
+            for(Node n: nodes) {
+                float dx = Math.abs(screenX(n.getX()) - x);
+                float dy = Math.abs(screenY(n.getY()) - y);
+                float distance = (float)Math.sqrt(dx*dx + dy*dy);
 
-			if(distance < (n.getSize() / 2)) {
-				graph.unlockNodesRO();
-				return n;
-			}
-		}
-		graph.unlockNodesRO();
+                if(distance < (n.getSize() / 2)) {
+                    return n;
+                }
+            }
 
-		return null;
+            return null;
+        }
 	}
 
 	// creates a link between two nodes, lots of vector math here...
@@ -144,23 +149,22 @@ public class GraphView extends JComponent implements Runnable, MouseMotionListen
 
 		g.setColor(Color.GRAY);
 
-		graph.lockNodesRO();
-		// Draw edges
+		synchronized(graph.getNodes()) {
 
-		g.setFont(new Font("Verdana", Font.PLAIN, 8));
-		// Then draw nodes over top.
-		for(Node node: graph.getNodes()) {
-			int x = screenX(node.getX());
-			int y = screenY(node.getY());
+            g.setFont(new Font("Verdana", Font.PLAIN, 8));
+            // Then draw nodes over top.
+            for(Node node: graph.getNodes()) {
+                int x = screenX(node.getX());
+                int y = screenY(node.getY());
 
-			node.draw(x, y, g);
+                node.draw(x, y, g);
 
-			for(Edge edge: node.getEdges()) {
-				connect(g, edge);
-			}
-		}
+                for(Edge edge: node.getEdges()) {
+                    connect(g, edge);
+                }
+            }
+        }
 
-		graph.unlockNodesRO();
 	}
 
 	//----------------------------------------

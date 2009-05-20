@@ -9,8 +9,10 @@ import javax.swing.text.BadLocationException;
 import net.openalp.core.FileParser;
 import net.openalp.core.Grammar;
 import net.openalp.core.LexiconDAO;
+import net.openalp.core.ParseResult;
 import net.openalp.core.Sentence;
 import net.openalp.core.Tokenizer;
+import net.openalp.core.TokenizingError;
 
 /**
  * Observes changes in the editor. When the user stops typing for a few seconds,
@@ -125,26 +127,17 @@ public class ModificationObserver implements DocumentListener, Runnable {
     private synchronized void checkSentence(SentencePosition sp) {
         String text = editor.getSentenceText(sp);
         // Grammar first because its sentance level.
-        if(grammar.calculateSentanceValidity(text) < 0.4f) {
-            editor.markBadGrammar(sp);
-        } else {
+
+        ParseResult result = grammar.calculateSentanceValidity(text);
+
+        if(result.isValid()) {
             editor.markNormal(sp);
+        } else {
+            editor.markBadGrammar(sp);
         }
 
-
-        // need to check spelling one at a time... Perhaps there is a better
-        // way... perhaps as part of grammar...
-        List<String> sentence = tokenizer.split(text);
-        int curPos = sp.start;
-        for(String word: sentence) {
-            if(word.length() > 0 && lex.get(word.toLowerCase()).size() == 0) {
-                editor.markBadSpelling(new SentencePosition(curPos, curPos + word.length()));
-            }
-            
-            // TODO: Ugly and will lead to errors with some punc.
-            // Only way around this will be to write a fully fledged tokenizing engine
-            // that returns all tokens, including spaces etc...
-            curPos += word.length() + 1;
+        for(TokenizingError error: result.getTokenizingResult().getErrors()) {
+            editor.markBadSpelling(new SentencePosition(sp.start + error.getStart(), sp.start + error.getEnd()));
         }
     }
 
