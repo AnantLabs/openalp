@@ -1,5 +1,7 @@
 package net.openalp.core;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +28,8 @@ import java.util.List;
  * @since r1
  */
 public class Tokenizer {
+    private char[] symbols = {'.', '!', '?'};
+    private char[] whitespace = {' ', '\n', '\r', '\t'};
     private LexiconDAO lexicon;
 
     public  Tokenizer() { };
@@ -85,42 +89,55 @@ public class Tokenizer {
 		return result;
     }
 
+     private boolean isWhitespace(char c) {
+        for(int i = 0; i < whitespace.length; i++) {
+            if(whitespace[i] == c) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isSymbol(char c) {
+        for(int i = 0; i < symbols.length; i++) {
+            if(symbols[i] == c) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public List<Word> split(String sentance) {
         LinkedList<Word> words = new LinkedList<Word>();
-        int cursor = 0;
-        int lastToken = 0;
+        int cursor = 0;     // Position we are currently looking at.
+        int lastToken = 0;  // The end of the last token consumed.
         while(cursor < sentance.length()) {
-            switch(sentance.charAt(cursor)) {
-                // Delimiters first.
-                case ' ':
-                    if(cursor > lastToken) words.add(new Word(sentance.substring(lastToken, cursor), lastToken, cursor));
-                    
-                    lastToken = cursor + 1;
-                    break;
+            char currentChar = sentance.charAt(cursor);
 
-                // Special characters that form tokens automatically.
-                case '.':
-                case ',':
-                case '"':
-                case '(':
-                case ')':
-                case '\'':
-                    if(cursor > lastToken) words.add(new Word(sentance.substring(lastToken, cursor), lastToken, cursor));
-                    lastToken = cursor + 1;
-                    words.add(new Word(Character.toString(sentance.charAt(cursor)), cursor, cursor + 1));
-                    break;
+            if(isWhitespace(currentChar)) {
+                // Add the word preceding the whitespace.
+                if(cursor > lastToken) words.add(new Word(sentance.substring(lastToken, cursor), lastToken, cursor));
+
+                // Find how much whitespace there is
+                int whitespaceChars = 1;
+                while((currentChar + whitespaceChars) < sentance.length() && isWhitespace(sentance.charAt(currentChar + whitespaceChars))) {
+                    whitespaceChars++;
+                }
+
+                lastToken = cursor + whitespaceChars;
+                break;
+            }
+            
+            if(isSymbol(currentChar)) {
+                if(cursor > lastToken) words.add(new Word(sentance.substring(lastToken, cursor), lastToken, cursor));
+                lastToken = cursor + 1;
+                words.add(new Word(Character.toString(sentance.charAt(cursor)), cursor, cursor + 1));
+                break;
             }
             cursor++;
         }
-
-        /*
-         * For debugging...
-        for(Word word: words) {
-            System.out.println("::" + word.getText() + "::");
-            System.out.println(" Start: " + word.getStart());
-            System.out.println(" End: " + word.getEnd());
-        }
-         */
 
         return words;
     }

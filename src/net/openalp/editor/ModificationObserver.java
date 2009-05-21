@@ -1,8 +1,5 @@
 package net.openalp.editor;
 
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
@@ -10,7 +7,6 @@ import net.openalp.core.FileParser;
 import net.openalp.core.Grammar;
 import net.openalp.core.LexiconDAO;
 import net.openalp.core.ParseResult;
-import net.openalp.core.Sentence;
 import net.openalp.core.Tokenizer;
 import net.openalp.core.TokenizingError;
 
