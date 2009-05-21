@@ -12,22 +12,20 @@ import java.io.FileNotFoundException;
  * Time: 8:52:23 PM
  * To change this template use File | Settings | File Templates.
  */
-public class GraphDecoder {
+public class GrammarDecoder {
     XMLDecoder decoder;
-    
-    public GraphDecoder(String filename) {
+
+    public GrammarDecoder() {}
+
+    public Object load(String filename)
+    {
         try {
             decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(filename)));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            return null;
         }
 
-    }
-
-    public Object getGrammar()
-    {
-       Object o = decoder.readObject();
-
-        return o;
+        return decoder.readObject();
     }
 }

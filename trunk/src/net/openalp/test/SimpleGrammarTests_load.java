@@ -1,7 +1,7 @@
 package net.openalp.test;
 
 import net.openalp.core.Grammar;
-import net.openalp.core.encoding.GraphDecoder;
+import net.openalp.core.encoding.GrammarDecoder;
 import net.openalp.graph.Graph;
 import net.openalp.graph.GraphView;
 
@@ -29,8 +29,7 @@ import net.openalp.graph.GraphView;
  */
 public class SimpleGrammarTests_load {
     public static void main(String[] args) {
-        GraphDecoder loader = new GraphDecoder("../testsave.oag");
-        Grammar test = (Grammar)loader.getGrammar();
-        
+        GrammarDecoder loader = new GrammarDecoder();
+        Grammar test = (Grammar)loader.load("../testsave.oag");        
     }
 }

@@ -33,6 +33,8 @@ public class Edge {
 	// Constructors
 	//----------------------------------------
 
+    public Edge() { };
+
 	// Creates a new edge from src to dest, in that direction if its directed.
 	public Edge(Node src, Node dest, boolean directed) {
 		this.src = src;
@@ -65,6 +67,8 @@ public class Edge {
 		return 1.0f;
 	}
 
+    
+
 //----------------------------------------
 	// Simple setters
 	//----------------------------------------
@@ -76,4 +80,12 @@ public class Edge {
     public Color getColor() {
 		return Color.BLUE;
 	}
+
+    public void setSrc(Node src) {
+        this.src = src;
+    }
+
+    public void setDest(Node dest) {
+        this.dest = dest;
+    }
 }

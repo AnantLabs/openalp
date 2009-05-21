@@ -3,8 +3,8 @@ package net.openalp.test;
 import net.openalp.core.LexiconDAO;
 import net.openalp.core.Grammar;
 import net.openalp.core.FileParser;
-import net.openalp.core.encoding.GraphEncoder;
-import net.openalp.core.encoding.GraphDecoder;
+import net.openalp.core.encoding.GrammarEncoder;
+import net.openalp.core.encoding.GrammarDecoder;
 
 /**
  * This file is part of OpenALP.
@@ -37,9 +37,9 @@ public class SimpleGrammarTests {
         fp.testFile("data/simple.tst");
         grammar.clear();
         fp.testFile("data/reverse.tst");
-        new GraphEncoder("../testsave.oag", grammar);
-        GraphDecoder loader = new GraphDecoder("../testsave.oag");
-        Object test = loader.getGrammar();
+        new GrammarEncoder(grammar, "../testsave.oag");
+        GrammarDecoder loader = new GrammarDecoder();
+        Object test = loader.load("../testsave.oag");
 
     }
 }

@@ -69,11 +69,19 @@ public class LanguageBuilderFrame extends JFrame {
         console.addCommandListener(new Test(grammar));
         console.addCommandListener(new Train(grammar));
         console.addCommandListener(new Set());
-        
+        console.addCommandListener(new Save(grammar));
+        console.addCommandListener(new Load(this));
+
         console.setDefaultListener(new Check(grammar));
     }
 
     public Grammar getGrammar() {
         return grammar;
+    }
+
+    public void setGrammar(Grammar grammar) {
+        this.grammar = grammar;
+        this.graphView.setGraph(grammar.getGraph());
+        initConsole();
     }
 }

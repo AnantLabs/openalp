@@ -183,7 +183,7 @@ public class Grammar {
 
     /**
      * Calculates the validity of a sentance.
-     * @param sentance The sentance to validate
+     * @param inputSentence The sentance to validate
      * @return the validity of the sentance.
      */
 	public ParseResult calculateSentenceValidity(String inputSentence) {
