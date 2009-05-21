@@ -1,9 +1,10 @@
 package net.openalp.editor;
 
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import java.awt.Dimension;
-
 import java.awt.EventQueue;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
@@ -15,7 +16,7 @@ import javax.swing.text.StyledDocument;
  * @author Adam Scarr <scarr.adam@gmail.com>
  */
 
-public class TextEditor extends JScrollPane  {
+public class TextEditor extends JScrollPane {
     private JTextPane textPane;
     private StyledDocument doc;
     private Style badGrammar;
@@ -38,11 +39,8 @@ public class TextEditor extends JScrollPane  {
         badSpelling = doc.addStyle("BadSpelling", null);
         StyleConstants.setForeground(badSpelling, Color.RED);
 
-
-
         observer = new ModificationObserver(this);
         textPane.getDocument().addDocumentListener(observer);
-
 
         setViewportView(textPane);
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -52,37 +50,48 @@ public class TextEditor extends JScrollPane  {
         return doc;
     }
 
-    public String getSentenceText(SentencePosition sp) {
+    public String getSentenceText(int start, int length) {
         try {
-            return doc.getText(sp.start, sp.getLength());
+            return doc.getText(start, length);
         } catch (BadLocationException ex) {
-            return "";
+            return null;
         }
     }
 
-    public void markBadGrammar(final SentencePosition sp) {
+    public String getText() {
+        try {
+            return doc.getText(0, doc.getLength());
+        } catch (BadLocationException ex) {
+            return null;
+        }
+    }
+
+    public void markBadGrammar(final int start, int end) {
+        final int length = end - start;
         System.out.println("Bad Grammar");
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                doc.setCharacterAttributes(sp.start, sp.getLength(), badGrammar, true);
+                doc.setCharacterAttributes(start, length, badGrammar, true);
             }
         });
     }
 
-    public void markBadSpelling(final SentencePosition sp) {
+    public void markBadSpelling(final int start, int end) {
+        final int length = end - start;
         System.out.println("Bad Speeling :)");
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                doc.setCharacterAttributes(sp.start, sp.getLength(), badSpelling, true);
+                doc.setCharacterAttributes(start, length, badSpelling, true);
             }
         });
     }
 
-    void markNormal(final SentencePosition sp) {
+    void markNormal(final int start, int end) {
+        final int length = end - start;
         System.out.println("Bad Grammar");
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                doc.setCharacterAttributes(sp.start, sp.getLength(), normal, true);
+                doc.setCharacterAttributes(start, length, normal, true);
             }
         });
     }

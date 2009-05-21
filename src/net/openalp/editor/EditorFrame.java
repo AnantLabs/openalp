@@ -1,8 +1,6 @@
 package net.openalp.editor;
 
 import java.awt.event.ActionEvent;
-import net.openalp.core.Grammar;
-import net.openalp.core.LexiconDAO;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,8 +11,6 @@ import javax.swing.*;
  * @author Adam Scarr <scarr.adam@gmail.com>
  */
 public class EditorFrame extends JFrame {
-    private LexiconDAO lexicon = new LexiconDAO();
-    private Grammar grammar = new Grammar(lexicon);
 
     public EditorFrame() {
         JMenuBar menu = new JMenuBar();
