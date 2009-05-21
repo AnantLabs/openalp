@@ -9,6 +9,7 @@ import net.openalp.core.LexiconDAO;
 import net.openalp.core.ParseResult;
 import net.openalp.core.Tokenizer;
 import net.openalp.core.TokenizingError;
+import net.openalp.languagebuilder.LanguageBuilderFrame;
 
 /**
  * Observes changes in the editor. When the user stops typing for a few seconds,
@@ -20,19 +21,19 @@ public class ModificationObserver implements DocumentListener, Runnable {
     private TextEditor editor;
     private static final long editDelay = 800;
     private Thread sleeper;
-    private LexiconDAO lex;
     private Grammar grammar;
-    private Tokenizer tokenizer;
 
     public ModificationObserver(TextEditor editor) {
         this.editor = editor;
-        lex = new LexiconDAO();
-        grammar = new Grammar(lex);
-        tokenizer = new Tokenizer(lex);
+
+        LanguageBuilderFrame lb = new LanguageBuilderFrame();
+
+        grammar = lb.getGrammar();
 
         FileParser parser = new FileParser(grammar);
         parser.parseFile("data/conjunctions.txt");
         parser.parseFile("data/trainingset.txt");
+
     }
 
     public void insertUpdate(DocumentEvent e) {
