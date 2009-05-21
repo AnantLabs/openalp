@@ -60,7 +60,11 @@ public class GraphView extends JComponent implements Runnable, MouseMotionListen
 		new Thread(this).start();
 	}
 
-	//----------------------------------------
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
+
+    //----------------------------------------
 	// Non mutating logic
 	//----------------------------------------
 

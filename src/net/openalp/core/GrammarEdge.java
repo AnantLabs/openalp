@@ -37,9 +37,11 @@ import net.openalp.graph.Node;
 import java.awt.*;
 
 public class GrammarEdge extends Edge {
-	private int usageCount = 1;
+    private int usageCount = 1;
     private Grammar grammar;
     private float activityFactor = 1.0f;
+
+    public GrammarEdge() { };
 
     public GrammarEdge(Node src, Node dest, Grammar grammar) {
         super(src, dest);
@@ -52,26 +54,26 @@ public class GrammarEdge extends Edge {
     }
 
     public int getUsageCount() {
-		return usageCount;
-	}
-
-    public float getWeight() {
-	    float weight = usageCount / (float)grammar.getTotalSentences();
-       if(weight > 1.0f) {
-	       return 1.0f;
-       } else {
-	       return weight;
-       }
+        return usageCount;
     }
 
-	public float getStrength() {
-		return ((getWeight() - 0.5f) / 1.25f) + 1.0f;
-	}
+    public float getWeight() {
+        float weight = usageCount / (float)grammar.getTotalSentences();
+        if(weight > 1.0f) {
+            return 1.0f;
+        } else {
+            return weight;
+        }
+    }
+
+    public float getStrength() {
+        return ((getWeight() - 0.5f) / 1.25f) + 1.0f;
+    }
 
     public void incrementUsageCount(){
-		usageCount++;
+        usageCount++;
         activate();
-	}
+    }
 
     public void activate() {
         activityFactor = 1.0f;
@@ -98,5 +100,17 @@ public class GrammarEdge extends Edge {
         if(blue < 0.0f) blue = 0.0f;
 
         return new Color(red, green, blue);
+    }
+
+    public Grammar getGrammar() {
+        return grammar;
+    }
+
+    public void setGrammar(Grammar grammar) {
+        this.grammar = grammar;
+    }
+
+    public void setUsageCount(int usageCount) {
+        this.usageCount = usageCount;
     }
 }

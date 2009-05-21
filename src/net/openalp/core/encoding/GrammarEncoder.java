@@ -8,19 +8,27 @@ import java.io.BufferedOutputStream;
 import java.beans.XMLEncoder;
 
 
-public class GraphEncoder {
+public class GrammarEncoder {
+    private Grammar grammar;
 
-    public GraphEncoder(String filename, Grammar grammar) {
+    public GrammarEncoder(Grammar grammar) {
+        this.grammar = grammar;
+    }
+
+    public GrammarEncoder(Grammar grammar, String filename) {
+        this.grammar = grammar;
+        save(filename);
+    }
+
+    public boolean save(String filename) {
         try {
             XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(filename)));
             encoder.writeObject(grammar);
             encoder.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            return false;
         }
-
-//        XMLEncoder encoder = new XMLEncoder(System.out);
-//        encoder.writeObject(grammar);
-//        encoder.close();
+        return true;
     }
 }

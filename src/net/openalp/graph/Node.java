@@ -79,6 +79,10 @@ public class Node {
 		return edges;
 	}
 
+    public void setEdges(LinkedList<Edge> edges) {
+        this.edges = edges;
+    }
+
     /**
      * Returns the edge that connects this node to the destination node. Does not take into account
      * the direction of the edge.
