@@ -1,9 +1,8 @@
 package net.openalp.core;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * This file is part of OpenALP.
@@ -28,7 +27,8 @@ import java.util.List;
  * @since r1
  */
 public class Tokenizer {
-    private char[] symbols = {'.', '!', '?'};
+    private char[] terminators = {'.', '!', '?'};
+    private char[] symbols = {',', '\'', '"', '(', ')'};
     private char[] whitespace = {' ', '\n', '\r', '\t'};
     private LexiconDAO lexicon;
 
@@ -58,35 +58,52 @@ public class Tokenizer {
      * If multiple tokens match a given word then multiple lists of tokens will be returned.
      * </p>
      *
-     * @param line  The text to convert.
-     * @return  all possible variations of token lists that match the text.
+     * @param text  The text to convert.
+     * @return  A Tokenizing result for each sentence in the text.
      */
-    public TokenizingResult tokenize(String line) {
-		return tokenize(split(line));
+    public List<TokenizedSentence> tokenize(String text) {
+		return tokenize(split(text));
 	}
 
-    public TokenizingResult tokenize(List<Word> words) {
-        Sentence sentance = new Sentence();
+    public List<TokenizedSentence> tokenize(List<UntokenizedSentence> sentences) {
+        List<TokenizedSentence> result = new Vector<TokenizedSentence>();
 
-        TokenizingResult result = new TokenizingResult();
+        for (UntokenizedSentence untokenizedSentence: sentences) {
+            System.out.println("New Sentence...");
+            result.add(tokenize(untokenizedSentence));
+        }
 
-		for (Word word : words) {
+		return result;
+    }
+
+    public TokenizedSentence tokenize(UntokenizedSentence untokenizedSentence) {
+        TokenizedSentence result = new TokenizedSentence();
+
+        result.setStart(untokenizedSentence.get(0).getStart());
+        result.setEnd(untokenizedSentence.get(untokenizedSentence.size() - 1).getEnd());
+
+        Sentence tokenizedSentence = new Sentence();
+
+        for (Word word : untokenizedSentence) {
+            System.out.print(word.getText() + " ");
             LinkedList<Token> tokens = lexicon.get(word.getText());
 
-			if(tokens.size() == 0) {
+            if(tokens.size() == 0) {
                 result.addError(new TokenizingError(word.getStart(), word.getEnd()));
-				System.out.println("Could not find '" + word + "' in lexicon.");
-                sentance.add(new Token("UNDEF"));
+               // System.out.println("Could not find '" + word + "' in lexicon.");
+                tokenizedSentence.add(new Token("UNDEF"));
                 continue;
-			}
+            }
 
-            sentance.add(tokens.get(0));
-		}
+            tokenizedSentence.add(tokens.get(0));
+        }
 
-        LinkedList<Sentence> sentances = new LinkedList<Sentence>();
-        sentances.add(sentance);
-        result.setSentences(sentances);
-		return result;
+        PossibleSentences possibleSentences = new PossibleSentences();
+        possibleSentences.add(tokenizedSentence);
+
+        result.setSentences(possibleSentences);
+
+        return result;
     }
 
      private boolean isWhitespace(char c) {
@@ -99,6 +116,18 @@ public class Tokenizer {
         return false;
     }
 
+
+    private boolean isTerminator(char c) {
+        for(int i = 0; i < terminators.length; i++) {
+            if(terminators[i] == c) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
     private boolean isSymbol(char c) {
         for(int i = 0; i < symbols.length; i++) {
             if(symbols[i] == c) {
@@ -109,37 +138,52 @@ public class Tokenizer {
         return false;
     }
 
-    public List<Word> split(String sentance) {
-        LinkedList<Word> words = new LinkedList<Word>();
+    public List<UntokenizedSentence> split(String sentance) {
         int cursor = 0;     // Position we are currently looking at.
         int lastToken = 0;  // The end of the last token consumed.
+
+        List<UntokenizedSentence> sentences = new Vector<UntokenizedSentence>();
+        UntokenizedSentence currentSentence = new UntokenizedSentence();
+
+
         while(cursor < sentance.length()) {
             char currentChar = sentance.charAt(cursor);
 
             if(isWhitespace(currentChar)) {
                 // Add the word preceding the whitespace.
-                if(cursor > lastToken) words.add(new Word(sentance.substring(lastToken, cursor), lastToken, cursor));
+                if(cursor > lastToken) currentSentence.add(new Word(sentance.substring(lastToken, cursor), lastToken, cursor));
 
                 // Find how much whitespace there is
-                int whitespaceChars = 1;
-                while((currentChar + whitespaceChars) < sentance.length() && isWhitespace(sentance.charAt(currentChar + whitespaceChars))) {
+                int whitespaceChars = 0;
+                while((cursor + whitespaceChars) < sentance.length() && isWhitespace(sentance.charAt(cursor + whitespaceChars))) {
                     whitespaceChars++;
                 }
 
                 lastToken = cursor + whitespaceChars;
-                break;
-            }
-            
-            if(isSymbol(currentChar)) {
-                if(cursor > lastToken) words.add(new Word(sentance.substring(lastToken, cursor), lastToken, cursor));
+                cursor += whitespaceChars  -1;
+            } else if(isTerminator(currentChar)) {
+                // Run for president.
+                
+                if(cursor > lastToken) currentSentence.add(new Word(sentance.substring(lastToken, cursor), lastToken, cursor));
                 lastToken = cursor + 1;
-                words.add(new Word(Character.toString(sentance.charAt(cursor)), cursor, cursor + 1));
-                break;
-            }
+                currentSentence.add(new Word(Character.toString(sentance.charAt(cursor)), cursor, cursor + 1));
+                sentences.add(currentSentence);
+
+                currentSentence = new UntokenizedSentence();
+
+            } else if(isSymbol(currentChar)) {
+                if(cursor > lastToken) currentSentence.add(new Word(sentance.substring(lastToken, cursor), lastToken, cursor));
+                lastToken = cursor + 1;
+                currentSentence.add(new Word(Character.toString(sentance.charAt(cursor)), cursor, cursor + 1));
+                
+            } 
             cursor++;
         }
-
-        return words;
+        if(!currentSentence.isEmpty()) {
+            sentences.add(currentSentence);
+        }
+        return sentences;
     }
 
+    private class UntokenizedSentence extends Vector<Word> {}
 }

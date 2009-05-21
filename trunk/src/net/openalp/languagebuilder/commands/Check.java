@@ -47,6 +47,6 @@ public class Check implements CommandListener {
 
         System.out.print("Checking '" + sentance + "': ");
 
-        System.out.println(grammar.calculateSentanceValidity(sentance.toString()));
+        System.out.println(grammar.calculateSentenceValidity(sentance.toString()));
     }
 }

@@ -26,6 +26,7 @@ package net.openalp.core;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 import net.openalp.graph.Edge;
 import net.openalp.graph.Graph;
 import net.openalp.graph.Node;
@@ -125,7 +126,7 @@ public class Grammar {
      * @param sentance The sentance to check.
      * @return the 'validity' of a sentance.
      */
-	public ParseResult validateSentance(Sentence sentance) {
+	public ParseResult validateSentence(Sentence sentance) {
         // TODO: Ask Dimitry about this, dosent seem right to need to create a new list just so
         //Java knows that all elements implement a given interface.
         List<NodeFilter> filterList = new LinkedList<NodeFilter>(sentance);
@@ -158,26 +159,48 @@ public class Grammar {
 	}
 
     /**
+     * Validates a block of text.
+     * @param text  The text to validate
+     * @return  A parse result for every sentance, including any errors.
+     */
+    public List<ParseResult> validate(String text) {
+        List<ParseResult> result = new Vector<ParseResult>();
+
+        List<TokenizedSentence> tokenizingResult = tokenizer.tokenize(text.toLowerCase());
+
+        for(TokenizedSentence sentence: tokenizingResult) {
+            result.add(calculateSentenceValidity(sentence));
+        }
+
+
+
+        return result;
+    }
+
+    /**
      * Calculates the validity of a sentance.
      * @param sentance The sentance to validate
      * @return the validity of the sentance.
      */
-	public ParseResult calculateSentanceValidity(String inputSentence) {
-		TokenizingResult tokenizingResult = tokenizer.tokenize(inputSentence.toLowerCase());
+	public ParseResult calculateSentenceValidity(String inputSentence) {
+		TokenizedSentence tokenizingResult = tokenizer.tokenize(inputSentence.toLowerCase()).get(0);
+        return calculateSentenceValidity(tokenizingResult);
+	}
 
+    public ParseResult calculateSentenceValidity(TokenizedSentence tokenizedSentence) {
         ParseResult best = new ParseResult(Float.NEGATIVE_INFINITY);
 
-        for(Sentence sentance: tokenizingResult.getSentences()) {
-            ParseResult result = validateSentance(sentance);
+        for(Sentence sentance: tokenizedSentence.getSentences()) {
+            ParseResult result = validateSentence(sentance);
             if(result.getValidity() > best.getValidity()) {
                 best = result;
             }
         }
 
-        best.setTokenizingResult(tokenizingResult);
+        best.setTokenizingResult(tokenizedSentence);
 
         return best;
-	}
+    }
 
     /**
      * Parses a sentance, adding it to the grammar if it does not exist.
@@ -186,7 +209,9 @@ public class Grammar {
      */
 
 	public boolean parse(String sentance) {
-		TokenizingResult tokenizingResult = tokenizer.tokenize(sentance.toLowerCase());
+        List<TokenizedSentence> foo = tokenizer.tokenize(sentance.toLowerCase());
+        //if(foo.isEmpty()) return false;
+		TokenizedSentence tokenizingResult = foo.get(0);
 
         // Check if there are any valid sentances that match this structure.
         boolean exists = false;
@@ -195,7 +220,7 @@ public class Grammar {
         ParseResult best = new ParseResult(Float.NEGATIVE_INFINITY);
         
         for(Sentence tokenizedSentance: tokenizingResult.getSentences()) {
-            ParseResult parseResult = validateSentance(tokenizedSentance);
+            ParseResult parseResult = validateSentence(tokenizedSentance);
             if(parseResult.getValidity() > best.getValidity()) {
                 best = parseResult;
                 bestSentance = tokenizedSentance;

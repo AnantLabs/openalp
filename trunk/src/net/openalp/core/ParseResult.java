@@ -2,12 +2,14 @@ package net.openalp.core;
 
 
 /**
+ * The result of parsing a sentance.
  *
  * @author Adam Scarr <scarr.adam@gmail.com>
  */
 public class ParseResult {
     private float validity;
-    private TokenizingResult tokenizingResult = new TokenizingResult();
+    private TokenizedSentence tokenizingResult = new TokenizedSentence();
+    private int start, end;
 
     ParseResult() {
     }
@@ -16,11 +18,11 @@ public class ParseResult {
         this.validity = validity;
     }
 
-    public TokenizingResult getTokenizingResult() {
+    public TokenizedSentence getTokenizingResult() {
         return tokenizingResult;
     }
 
-    public void setTokenizingResult(TokenizingResult result) {
+    public void setTokenizingResult(TokenizedSentence result) {
         tokenizingResult = result;
     }
 
@@ -35,4 +37,22 @@ public class ParseResult {
     public void setValidity(float validity) {
         this.validity = validity;
     }
+
+    public int getEnd() {
+        return end;
+    }
+
+    public void setEnd(int end) {
+        this.end = end;
+    }
+
+    public int getStart() {
+        return start;
+    }
+
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    
 }

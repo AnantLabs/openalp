@@ -1,10 +1,9 @@
 package net.openalp.test;
 
-import net.openalp.core.LexiconDAO;
 import net.openalp.core.Grammar;
-import net.openalp.core.FileParser;
-import net.openalp.core.encoding.GraphEncoder;
 import net.openalp.core.encoding.GraphDecoder;
+import net.openalp.graph.Graph;
+import net.openalp.graph.GraphView;
 
 /**
  * This file is part of OpenALP.
@@ -16,7 +15,7 @@ import net.openalp.core.encoding.GraphDecoder;
  * <p/>
  * OpenALP is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILtITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * <p/>
  * You should have received a copy of the GNU General Public License
@@ -28,18 +27,10 @@ import net.openalp.core.encoding.GraphDecoder;
  * @author Adam Scarr
  * @since r1
  */
-public class SimpleGrammarTests {
+public class SimpleGrammarTests_load {
     public static void main(String[] args) {
-        LexiconDAO lexicon = new LexiconDAO();
-        Grammar grammar = new Grammar(lexicon);
-        FileParser fp = new FileParser(grammar);
-
-        fp.testFile("data/simple.tst");
-        grammar.clear();
-        fp.testFile("data/reverse.tst");
-        new GraphEncoder("../testsave.oag", grammar);
         GraphDecoder loader = new GraphDecoder("../testsave.oag");
-        Object test = loader.getGrammar();
-
+        Grammar test = (Grammar)loader.getGrammar();
+        
     }
 }
