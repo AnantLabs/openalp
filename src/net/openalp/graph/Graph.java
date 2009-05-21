@@ -118,7 +118,9 @@ public class Graph {
 	//----------------------------------------
 
 	public void clear() {
-		nodes.clear();
+		synchronized(nodes) {
+            nodes.clear();
+        };
 	}
 
 	// forces an update of the graph (call me if youve only made changes to the connections and not created any new nodes)

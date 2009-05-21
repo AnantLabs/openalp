@@ -169,7 +169,11 @@ public class Grammar {
         List<TokenizedSentence> tokenizingResult = tokenizer.tokenize(text.toLowerCase());
 
         for(TokenizedSentence sentence: tokenizingResult) {
-            result.add(calculateSentenceValidity(sentence));
+            ParseResult parseResult = calculateSentenceValidity(sentence);
+            parseResult.setStart(sentence.getStart());
+            parseResult.setEnd(sentence.getEnd());
+            System.out.println(parseResult.getStart() + " to " + parseResult.getEnd());
+            result.add(parseResult);
         }
 
 
