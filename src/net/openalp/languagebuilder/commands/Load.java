@@ -6,6 +6,8 @@ import net.openalp.generic.swing.Console;
 import net.openalp.generic.swing.CommandListener;
 import net.openalp.languagebuilder.LanguageBuilderFrame;
 
+import java.awt.*;
+
 /**
  * Created by IntelliJ IDEA.
  * User: NecromancyBlack
@@ -15,6 +17,8 @@ import net.openalp.languagebuilder.LanguageBuilderFrame;
 public class Load implements CommandListener {
     private GrammarDecoder loader = new GrammarDecoder();
     private LanguageBuilderFrame frame;
+    private Grammar grammar;
+    private String filename;
 
     public Load(LanguageBuilderFrame frame) {
         this.frame = frame;
@@ -26,10 +30,17 @@ public class Load implements CommandListener {
 
     public void runCommand(Console console, String[] argv, int argc) {
         if(argv.length > 1) {
-            Grammar grammar = (Grammar)loader.load(argv[1]);
+
+            filename = argv[1];
+            grammar = (Grammar)loader.load(filename);
+
             if (grammar != null) {
-                frame.setGrammar(grammar);
-                System.out.println(argv[1] + " loaded.");
+                EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        frame.setGrammar(grammar);
+                        System.out.println(filename + " loaded.");
+                    }
+                });
             }
             else {
                 System.out.println("Failed to load  " + argv[1]);
