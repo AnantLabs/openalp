@@ -19,6 +19,7 @@ public class Load implements CommandListener {
     private LanguageBuilderFrame frame;
     private Grammar grammar;
     private String filename;
+    private final String FILEPATH = "./data/";
 
     public Load(LanguageBuilderFrame frame) {
         this.frame = frame;
@@ -32,7 +33,7 @@ public class Load implements CommandListener {
         if(argv.length > 1) {
 
             filename = argv[1];
-            grammar = (Grammar)loader.load(filename);
+            grammar = (Grammar)loader.load(FILEPATH + filename);
 
             if (grammar != null) {
                 EventQueue.invokeLater(new Runnable() {

@@ -10,10 +10,10 @@ import net.openalp.core.encoding.GrammarEncoder;
  * User: NecromancyBlack
  * Date: 21/05/2009
  * Time: 8:01:37 PM
- * To change this template use File | Settings | File Templates.
  */
 public class Save implements CommandListener {
     private GrammarEncoder saver;
+     private final String FILEPATH = "./data/";
 
     public Save(Grammar grammar) {
         saver = new GrammarEncoder(grammar);
@@ -25,7 +25,7 @@ public class Save implements CommandListener {
 
     public void runCommand(Console console, String[] argv, int argc) {
         if(argv.length > 1) {
-            if (saver.save(argv[1])) {
+            if (saver.save(FILEPATH + argv[1])) {
                 System.out.println("\n" + argv[1] + " saved.");
             }
             else {
